@@ -70,13 +70,7 @@ export default function ThreeDimModel(props) {
 			<Canvas style={props.style}>
 				<Suspense fallback={null}>
 					<Light brightness={0.1} color={"white"} />
-					<BackLight brightness={1} color={"white"} />
-					{/* <Model
-						fileName={props.fileName}
-						scale={props.scale}
-						position={[1, 0, 0]}
-					/> */}
-
+					<BackLight brightness={0.1} color={"white"} />
 					<Model
 						fileName={
 							"https://ipfs.moralis.io:2053/ipfs/QmeU7A8tL6cDCzSiUtvTxg8RStk1RQRWGZmEjt1o1JJLHE/swordium/0000000000000000000000000000000000000000000000000000000000000000.gltf"

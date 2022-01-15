@@ -6,7 +6,7 @@ module.exports = {
 		REACT_APP_MORALIS_SERVER_URL: process.env.REACT_APP_MORALIS_SERVER_URL,
 	},
 	react: {
-		useSuspense: false,
+		useSuspense: true,
 		wait: true,
 	},
 };

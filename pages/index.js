@@ -45,12 +45,8 @@ function Home() {
 					flexDirection: "row",
 				}}
 			>
-				{/* <Swords /> */}
-				<ThreeDimModel scale={1} />
-				{/* <ThreeDimModel fileName={"Swordium-00002.gltf"} scale={1.3} />
-				<ThreeDimModel fileName={"Swordium-00003.gltf"} scale={1.5} />
-				<ThreeDimModel fileName={"Swordium-00004.gltf"} scale={1.3} />
-				<ThreeDimModel fileName={"Swordium-00005.gltf"} scale={1.1} /> */}
+				<Swords />
+				{/* <ThreeDimModel scale={1} /> */}
 			</div>
 
 			{/* <div
