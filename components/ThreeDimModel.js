@@ -82,7 +82,7 @@ export default function ThreeDimModel(props) {
 					<Light brightness={0.1} color={"white"} />
 					<BackLight brightness={0.1} color={"white"} />
 					<Model
-						fileName={"../../../Swordium-00001.gltf"}
+						fileName={"../../../Poimandres.gltf"}
 						scale={props.scale}
 						position={[0, 0, 0]}
 					/>

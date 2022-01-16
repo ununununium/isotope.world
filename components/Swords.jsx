@@ -11,14 +11,16 @@ import axios from "axios";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
 // Create 800 objects with random position and rotation data
-const positions = [...Array(10)].map((_, i) => ({
+const DISPLAY_AMOUNT = 5;
+const positions = [...Array(DISPLAY_AMOUNT)].map((_, i) => ({
 	index: i + 1,
-	position: [
-		30 - Math.random() * 60,
-		30 - Math.random() * 60,
-		30 - Math.random() * 60,
-	],
-	rotation: [Math.random() * 0, Math.random() * 0.01, Math.random() * 0],
+	position: [(i - DISPLAY_AMOUNT / 2 + 0.5) * 5, 0, 0],
+	// position: [
+	// 	30 - Math.random() * 60,
+	// 	30 - Math.random() * 60,
+	// 	30 - Math.random() * 60,
+	// ],
+	rotation: [0, 0.01, 0],
 }));
 
 export default function Swords() {
@@ -33,16 +35,16 @@ export default function Swords() {
 	return (
 		<Canvas
 			// Quick shortcut for setting up shadow maps
-			shadows
+			// shadows
 			// Only render on changes and movement
-			frameloop="demand"
+			// frameloop="demand"
 			// Pixelratio using window.devicePixelRatio, no less than 1, no higher than 2
-			dpr={[1, 2]}
-			camera={{ position: [0, 0, 40] }}
+			// dpr={[1, 2]}
+			camera={{ position: [0, 0, 10] }}
 			// Nice trick here, if your scene is static you can switch off shadowmap auto-update for more performance
-			onCreated={({ gl }) => (
-				(gl.shadowMap.autoUpdate = false), (gl.shadowMap.needsUpdate = true)
-			)}
+			// onCreated={({ gl }) => (
+			// 	(gl.shadowMap.autoUpdate = false), (gl.shadowMap.needsUpdate = true)
+			// )}
 		>
 			<Suspense fallback={null}>
 				{/* Let's render 800 Bust components with the data above */}
@@ -51,9 +53,11 @@ export default function Swords() {
 						<Bust key={i} {...props} path={data[i].path} />
 					))}
 				<OrbitControls zoomSpeed={0.075} />
-				<pointLight position={[0, 0, 0]} intensity={0.5} />
-				<spotLight intensity={2.5} position={[50, 50, 50]} castShadow />
-				<Environment preset="city" />
+				{/* <pointLight position={[0, 0, 0]} intensity={0.5} /> */}
+				<spotLight intensity={0.8} position={[0, 10, 60]} />
+				<spotLight intensity={0.8} position={[0, -10, -60]} />
+				{/* <spotLight intensity={3} position={[10, -10, 30]} /> */}
+				{/* <Environment preset="city" /> */}
 			</Suspense>
 		</Canvas>
 	);
@@ -61,14 +65,14 @@ export default function Swords() {
 
 function Bust(props) {
 	return (
-		<Detailed distances={[0, 15, 25, 35, 100]}>
-			<Model
-				path={props.path}
-				scale={3}
-				position={props.position}
-				rotation={props.rotation}
-			/>
-		</Detailed>
+		// <Detailed distances={[0, 15, 25, 35, 100]}>
+		<Model
+			path={props.path}
+			scale={3}
+			position={props.position}
+			rotation={props.rotation}
+		/>
+		// </Detailed>
 	);
 }
 
