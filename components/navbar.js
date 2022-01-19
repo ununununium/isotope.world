@@ -53,25 +53,9 @@ const styles = {
 };
 export default function navbar({ path }) {
 	return (
-		<Box
-			style={styles.header}
-			// style={{
-			// 	width: "100%",
-			// 	height: "80px",
-			// 	background: themeColors.background,
-			// 	color: "white",
-			// 	position: "fixed",
-			// 	display: "flex",
-			// 	flexDirection: "row",
-			// 	alignItems: "center",
-			// 	padding: "20px",
-			// }}
-		>
-			{/* {path} */}
-			{/* <Typography>ISOTOPE.WORLD</Typography> */}
+		<Box style={styles.header}>
 			<Logo />
 			<Menu
-				// theme="light"
 				mode="horizontal"
 				style={{
 					display: "flex",
@@ -92,6 +76,10 @@ export default function navbar({ path }) {
 
 				<Menu.Item key="/about">
 					<NextLink href="/about">About</NextLink>
+				</Menu.Item>
+
+				<Menu.Item key="/my_nfts">
+					<NextLink href="/my_nfts">My NFTs</NextLink>
 				</Menu.Item>
 			</Menu>
 

@@ -8,11 +8,6 @@ function MyApp({ Component, pageProps, router }) {
 	const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
 	const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
 
-	// console.log("============");
-	// console.log(APP_ID);
-	// console.log(SERVER_URL);
-	// console.log("============");
-
 	return (
 		<MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
 			<MoralisDappProvider>
