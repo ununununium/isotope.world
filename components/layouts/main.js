@@ -19,10 +19,11 @@ const Main = ({ children, router }) => {
 			<Box
 				style={{
 					width: "100%",
-					height: "100%",
 					display: "flex",
 					flexDirection: "column",
 					marginTop: "100px",
+					alignItems: "center",
+					backgroundColor: themeColors.background,
 				}}
 			>
 				{children}

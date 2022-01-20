@@ -59,13 +59,14 @@ export default function navbar({ path }) {
 				mode="horizontal"
 				style={{
 					display: "flex",
-					fontSize: "17px",
-					fontWeight: "500",
+					fontSize: "1rem",
 					marginLeft: "50px",
 					width: "100%",
 					backgroundColor: themeColors.background,
-					color: themeColors.foreground,
+					// color: themeColors.foreground
+					// color: "#31344b !important",
 					borderBottom: "none",
+					fontWeight: "400",
 				}}
 				defaultSelectedKeys={["/"]}
 				selectedKeys={[path]}
@@ -78,13 +79,17 @@ export default function navbar({ path }) {
 					<NextLink href="/about">About</NextLink>
 				</Menu.Item>
 
-				<Menu.Item key="/my_nfts">
-					<NextLink href="/my_nfts">My NFTs</NextLink>
+				<Menu.Item key="/swordium">
+					<NextLink href="/swordium">Swordium</NextLink>
 				</Menu.Item>
+
+				{/* <Menu.Item key="/my_nfts">
+					<NextLink href="/my_nfts">My NFTs</NextLink>
+				</Menu.Item> */}
 			</Menu>
 
 			<div style={styles.headerRight}>
-				<Chains />
+				{/* <Chains /> */}
 				{/* <NativeBalance /> */}
 				<Account />
 			</div>

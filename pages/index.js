@@ -39,7 +39,7 @@ function Home() {
 			{/* <div style={styles.placeholder}>Hello ISOTOPE.WORLD !</div> */}
 			<div
 				style={{
-					height: "100%",
+					height: "70vh",
 					width: "100%",
 					display: "flex",
 					flexDirection: "row",
@@ -48,21 +48,6 @@ function Home() {
 				<Swords />
 				{/* <ThreeDimModel scale={1} /> */}
 			</div>
-
-			{/* <div
-				style={{
-					height: "100%",
-					width: "100%",
-					display: "flex",
-					flexDirection: "row",
-				}}
-			>
-				<ThreeDimModel fileName={"Swordium-00006.gltf"} scale={1} />
-				<ThreeDimModel fileName={"Swordium-00007.gltf"} scale={1} />
-				<ThreeDimModel fileName={"Swordium-00008.gltf"} scale={1} />
-				<ThreeDimModel fileName={"Swordium-00009.gltf"} scale={1} />
-				<ThreeDimModel fileName={"Swordium-00010.gltf"} scale={1} />
-			</div> */}
 
 			<div id="fourth" className="buttonBox">
 				<button className="exploreButton">ISOTOPE.WORLD Coming Soon</button>
