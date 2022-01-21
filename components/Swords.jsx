@@ -27,7 +27,7 @@ export default function Swords() {
 	const [data, setData] = useState([]);
 
 	useEffect(async () => {
-		let res = await axios.get("/Uploaded-IPFS-Paths.json");
+		let res = await axios.get("/GLTF-Paths.json");
 		console.log(res.data);
 		setData(res.data);
 	}, []);
@@ -50,7 +50,7 @@ export default function Swords() {
 				{/* Let's render 800 Bust components with the data above */}
 				{data.length > 0 &&
 					positions.map((props, i) => (
-						<Bust key={i} {...props} path={data[i].path} />
+						<Bust key={i} {...props} path={data[i]} />
 					))}
 				<OrbitControls zoomSpeed={0.075} />
 				{/* <pointLight position={[0, 0, 0]} intensity={0.5} /> */}

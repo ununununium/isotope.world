@@ -66,13 +66,24 @@ function NFTPreview({ data, chainId }) {
 						}}
 						src={metadata?.image}
 					/>
+					<Box style={{ padding: "10px" }}>
+						<div
+							style={{
+								fontWeight: "400",
+								color: "#31344b",
+								fontSize: "1.11rem",
+							}}
+						>
+							{metadata?.name}
+						</div>
+					</Box>
 				</Box>
 			</NextLink>
 		</>
 	);
 }
 
-const SWORDIUM_TOKEN_ADDRESS = "0x77450DcfF5713F71f34C5a815B906C19217EfF87";
+const SWORDIUM_TOKEN_ADDRESS = "0x02E09e142690F2d418858a7e3f443862b0D0D06D";
 const SWORDIUM_CHAIN_ID = "0x13881";
 
 function NFTBalance() {

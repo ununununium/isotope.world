@@ -171,27 +171,31 @@ function NFT(props) {
 									}}
 								>
 									{NFT_ATTRIBUTES.map((e, index) => {
-										return <div key={index}>{e.trait_type}</div>;
+										return (
+											<div key={index}>{e.trait_type + " : " + e.value}</div>
+										);
 									})}
-									{/* {metadata.description} */}
 								</div>
 							</Box>
 						</Box>
 
-						<button
+						<p
 							style={{
 								borderRadius: "10px",
 								background: "#e1ebf5",
 								boxShadow: "4px 4px 8px #bfc8d0,-4px -4px 8px #ffffff",
-								textAlign: "center",
+								textAlign: "start",
 								color: themeColors.foreground,
 								border: "none",
 								marginTop: "8px",
 								width: "100%",
 								fontSize: "20px",
 								padding: "50px",
+								fontSize: "1rem",
 							}}
-						></button>
+						>
+							{metadata.description}
+						</p>
 					</Box>
 				)}
 			</Box>
