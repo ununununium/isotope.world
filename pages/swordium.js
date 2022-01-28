@@ -16,6 +16,9 @@ import { useIPFS } from "../hooks/useIPFS";
 import themeColors from "../theme/theme";
 import NextLink from "next/link";
 
+import { Logos } from "../components/Chains/ChainToLogo";
+import { isWebGL2Available } from "@react-three/drei";
+
 const styles = {
 	content: {
 		display: "flex",
@@ -27,7 +30,7 @@ const styles = {
 		flexWrap: "wrap",
 		WebkitBoxPack: "start",
 		justifyContent: "flex-start",
-		gap: "20px",
+		gap: "50px",
 		// backgroundColor: "red",
 		maxWidth: "940px",
 	},
@@ -39,6 +42,62 @@ const filter = (nfts) => {
 	});
 };
 
+// function NFTPreview({ data, chainId }) {
+// 	const metadata = JSON.parse(data.metadata);
+
+// 	return (
+// 		<>
+// 			<NextLink
+// 				href={`/nft?chain_id=${chainId}&token_address=${data.token_address}&token_id=${data.token_id}`}
+// 			>
+// 				<Box
+// 					style={{
+// 						// border: "3px solid red",
+// 						width: "220px",
+// 						height: "352px",
+// 						borderRadius: "10px",
+// 						boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+// 					}}
+// 				>
+// 					<img
+// 						style={{
+// 							width: "220px",
+// 							height: "220px",
+// 							borderRadius: "10px",
+// 							borderEndStartRadius: "0",
+// 							borderEndEndRadius: "0",
+// 						}}
+// 						src={metadata?.image}
+// 					/>
+// 					<Box style={{ padding: "10px" }}>
+// 						<div
+// 							style={{
+// 								fontWeight: "400",
+// 								color: "#31344b",
+// 								fontSize: "1.11rem",
+// 								marginBottom: "55px",
+// 							}}
+// 						>
+// 							{metadata?.name}
+// 						</div>
+
+// 						<Box
+// 							style={{
+// 								display: "flex",
+// 								flexDirection: "row",
+// 								alignItems: "center",
+// 								overflow: "hidden",
+// 							}}
+// 						>
+// 							{<Logos chainId={chainId} />}
+// 							{/* {data.token_address} */}
+// 						</Box>
+// 					</Box>
+// 				</Box>
+// 			</NextLink>
+// 		</>
+// 	);
+// }
 function NFTPreview({ data, chainId }) {
 	const metadata = JSON.parse(data.metadata);
 
@@ -50,19 +109,20 @@ function NFTPreview({ data, chainId }) {
 				<Box
 					style={{
 						// border: "3px solid red",
-						width: "220px",
-						height: "352px",
+						// width: "230px",
+						height: "320px",
+						padding: "10px",
 						borderRadius: "10px",
 						boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
 					}}
 				>
 					<img
 						style={{
-							width: "220px",
-							height: "220px",
+							width: "260px",
+							height: "260px",
 							borderRadius: "10px",
-							borderEndStartRadius: "0",
-							borderEndEndRadius: "0",
+							// borderEndStartRadius: "0",
+							// borderEndEndRadius: "0",
 						}}
 						src={metadata?.image}
 					/>
@@ -76,6 +136,18 @@ function NFTPreview({ data, chainId }) {
 						>
 							{metadata?.name}
 						</div>
+						{/* 
+						<Box
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center",
+								overflow: "hidden",
+							}}
+						>
+							{<Logos chainId={chainId} />}
+							{data.token_address}
+						</Box> */}
 					</Box>
 				</Box>
 			</NextLink>
@@ -83,27 +155,39 @@ function NFTPreview({ data, chainId }) {
 	);
 }
 
-const SWORDIUM_TOKEN_ADDRESS = "0x02E09e142690F2d418858a7e3f443862b0D0D06D";
+// const SWORDIUM_TOKEN_ADDRESS = "0x02E09e142690F2d418858a7e3f443862b0D0D06D";
+const SWORDIUM_TOKEN_ADDRESS = "0x7F6071864Ee738F80De5c7872B775aDDe7647441";
 const SWORDIUM_CHAIN_ID = "0x13881";
 
 function NFTBalance() {
-	const { account } = useMoralisWeb3Api();
+	const { account, token } = useMoralisWeb3Api();
 	// const { chainId, marketAddress, contractABI } = useMoralisDapp();
 	const { Moralis } = useMoralis();
 	const { resolveLink } = useIPFS();
+	// const {
+	// 	fetch: getNFTBalance,
+	// 	data,
+	// 	error,
+	// 	isLoading,
+	// } = useMoralisWeb3ApiCall(account.getNFTsForContract, {
+	// 	chain: SWORDIUM_CHAIN_ID,
+	// 	token_address: SWORDIUM_TOKEN_ADDRESS,
+	// });
 	const {
 		fetch: getNFTBalance,
 		data,
 		error,
 		isLoading,
-	} = useMoralisWeb3ApiCall(account.getNFTsForContract, {
+	} = useMoralisWeb3ApiCall(token.getAllTokenIds, {
 		chain: SWORDIUM_CHAIN_ID,
-		token_address: SWORDIUM_TOKEN_ADDRESS,
+		address: SWORDIUM_TOKEN_ADDRESS,
 	});
 
 	useEffect(() => {
+		console.log("fetching");
+		console.log(data);
 		getNFTBalance();
-	}, [getNFTBalance]);
+	}, []);
 
 	// debug
 	useEffect(() => {
@@ -111,7 +195,12 @@ function NFTBalance() {
 		console.log(data);
 	}, [data]);
 
-	const NFTData = useMemo(() => filter(data?.result), [data]);
+	// const NFTData = useMemo(() => filter(data?.result), [data]);
+
+	const [NFTData, setNFTData] = useState(null);
+	useEffect(() => {
+		setNFTData(filter(data?.result));
+	}, [data]);
 
 	return (
 		<Box style={styles.content}>
