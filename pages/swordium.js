@@ -47,6 +47,16 @@ function NFTPreview({ data, chainId }) {
 	const [hovered, setHovered] = useState(false);
 	const toggleHover = () => setHovered(!hovered);
 
+	const contentfulLoader = ({ src, quality, width }) => {
+		const params = [`w=${width}`];
+
+		if (quality) {
+			params.push(`q=${quality}`);
+		}
+
+		return `${src}?${params.join("&")}`;
+	};
+
 	return (
 		<>
 			<NextLink
@@ -73,6 +83,7 @@ function NFTPreview({ data, chainId }) {
 						width="260px"
 						height="260px"
 						src={metadata?.image}
+						loader={contentfulLoader}
 					/>
 
 					<Box style={{ padding: "10px" }}>
