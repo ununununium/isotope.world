@@ -328,6 +328,7 @@ function NFT(props) {
 											NFTData.token_address
 										}`}
 										target={"_blank"}
+										rel={"noopener noreferrer"}
 									>
 										{NFTData.token_address.slice(0, 10) + " ..."}
 									</a>
