@@ -21,6 +21,88 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Logos } from "../components/Chains/ChainToLogo";
 
 import NextLink from "next/link";
+import ContentLoader from "react-content-loader";
+
+const LOADING_ANIMATION_SPEED = 1;
+
+const NFTNameContentLoader = (props) => {
+	return (
+		<ContentLoader
+			speed={LOADING_ANIMATION_SPEED}
+			width={296}
+			height={200}
+			viewBox="0 0 296 30"
+			backgroundColor={themeColors.loadingBackground}
+			foregroundColor={themeColors.loadingForeground}
+			style={{
+				// boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+				borderRadius: 10,
+			}}
+		>
+			<rect x="0" y="0" rx="5" ry="5" width="296" height="25" />
+		</ContentLoader>
+	);
+};
+
+const DescriptionContentLoader = (props) => {
+	return (
+		<ContentLoader
+			speed={LOADING_ANIMATION_SPEED}
+			width={296}
+			height={200}
+			viewBox="0 0 296 200"
+			backgroundColor={themeColors.loadingBackground}
+			foregroundColor={themeColors.loadingForeground}
+			style={
+				{
+					// boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+					// borderRadius: 10,
+				}
+			}
+		>
+			<rect x="0" y="0" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="30" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="60" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="90" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="120" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="150" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="180" rx="5" ry="5" width="296" height="20" />
+		</ContentLoader>
+	);
+};
+
+const AttributesContentLoader = (props) => {
+	return (
+		<ContentLoader
+			speed={LOADING_ANIMATION_SPEED}
+			width={64}
+			height={22}
+			viewBox="0 0 64 22"
+			backgroundColor={themeColors.loadingBackground}
+			foregroundColor={themeColors.loadingForeground}
+		>
+			<rect x="0" y="0" rx="5" ry="5" width="64" height="22" />
+		</ContentLoader>
+	);
+};
+
+const BlockchainInfoContentLoader = (props) => {
+	return (
+		<ContentLoader
+			speed={LOADING_ANIMATION_SPEED}
+			width={296}
+			height={200}
+			viewBox="0 0 296 200"
+			backgroundColor={themeColors.loadingBackground}
+			foregroundColor={themeColors.loadingForeground}
+		>
+			<rect x="0" y="0" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="30" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="60" rx="5" ry="5" width="296" height="20" />
+			<rect x="0" y="90" rx="5" ry="5" width="296" height="20" />
+		</ContentLoader>
+	);
+};
 
 const styles = {};
 
@@ -35,6 +117,28 @@ const findNFTbyId = (nfts, token_id) => {
 	} else {
 		return { NFTData: undefined, metadata: undefined };
 	}
+};
+
+const AttributeItem = ({ item, key }) => {
+	return (
+		<div
+			style={{
+				borderRadius: "10px",
+				boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+				width: "84px",
+				padding: "10px",
+			}}
+			key={key}
+		>
+			{item != 0 ? (
+				<div>{item.trait_type.toUpperCase()}</div>
+			) : (
+				<AttributesContentLoader />
+			)}
+
+			{item != 0 ? <div>{item.value}</div> : <AttributesContentLoader />}
+		</div>
+	);
 };
 
 const BlockchainInfoItem = ({ title, children }) => {
@@ -155,7 +259,8 @@ function NFT(props) {
 							alignItems: "center",
 						}}
 					>
-						{!metadata && <CircularProgress />}
+						{!metadata && <NFTNameContentLoader />}
+
 						{metadata && (
 							<div
 								style={{
@@ -196,22 +301,15 @@ function NFT(props) {
 						>
 							Description
 						</div>
-						{!metadata && <CircularProgress />}
+						{!metadata && <DescriptionContentLoader />}
 						{metadata && (
 							<p
 								style={{
-									// fontFamily: "Poppins,sans-serif",
-									// fontSize: "20px",
 									color: themeColors.foreground,
 									fontWeight: "350",
 									fontSize: "1rem",
 									height: "200px",
 									overflow: "hidden",
-
-									// textShadow:
-									// "-8px -8px 12px rgba(255,255,255,0.4) 8px 8px 12px rgba(0,0,0,0.08)",
-									// caretColor: "#262626",
-									// outline: "none",
 								}}
 							>
 								{metadata.description}
@@ -244,7 +342,7 @@ function NFT(props) {
 						>
 							Attributes
 						</div>
-						{!metadata && <CircularProgress />}
+
 						<div
 							style={{
 								width: "100%",
@@ -256,23 +354,15 @@ function NFT(props) {
 								flexWrap: "wrap",
 							}}
 						>
+							{!metadata &&
+								Array(6)
+									.fill(0)
+									.map((item, index) => {
+										return <AttributeItem item={item} key={index} />;
+									})}
 							{metadata &&
-								metadata.attributes?.map((e, index) => {
-									return (
-										<div
-											style={{
-												borderRadius: "10px",
-												boxShadow:
-													"6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
-												width: "84px",
-												padding: "10px",
-											}}
-											key={index}
-										>
-											<div>{e.trait_type.toUpperCase()}</div>
-											<div>{e.value}</div>
-										</div>
-									);
+								metadata.attributes?.map((item, index) => {
+									return <AttributeItem item={item} key={index} />;
 								})}
 						</div>
 					</Box>
@@ -303,9 +393,9 @@ function NFT(props) {
 						>
 							Blockchain Info
 						</div>
-						{!metadata && <CircularProgress />}
+						{!metadata && <BlockchainInfoContentLoader />}
 						{metadata && (
-							<Box style={{ display: "flex", flexDirection: "column" }}>
+							<div style={{ display: "flex", flexDirection: "column" }}>
 								<BlockchainInfoItem title={"Token Address:"}>
 									<a
 										href={`${getExplorer(chain_id)}address/${
@@ -330,7 +420,7 @@ function NFT(props) {
 								<BlockchainInfoItem title={"Contract Type:"}>
 									{NFTData.contract_type}
 								</BlockchainInfoItem>
-							</Box>
+							</div>
 						)}
 					</Box>
 				</Box>

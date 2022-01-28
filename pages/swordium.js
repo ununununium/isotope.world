@@ -18,6 +18,27 @@ import NextLink from "next/link";
 
 import { Logos } from "../components/Chains/ChainToLogo";
 import { isWebGL2Available } from "@react-three/drei";
+import ContentLoader from "react-content-loader";
+
+const LOADING_ANIMATION_SPEED = 2;
+const NFTPreviewContentLoader = (props) => {
+	return (
+		<ContentLoader
+			speed={LOADING_ANIMATION_SPEED}
+			width={240}
+			height={320}
+			viewBox="0 0 240 320"
+			backgroundColor={themeColors.loadingBackground}
+			foregroundColor={themeColors.loadingForeground}
+		>
+			{/* Only SVG shapes */}
+			<rect x="0" y="0" rx="10" ry="10" width="240" height="240" />
+
+			<rect x="0" y="260" rx="5" ry="5" width="190" height="30" />
+			<rect x="210" y="260" rx="5" ry="5" width="30" height="30" />
+		</ContentLoader>
+	);
+};
 
 const styles = {
 	content: {
@@ -43,7 +64,7 @@ const filter = (nfts) => {
 };
 
 function NFTPreview({ data, chainId }) {
-	const metadata = JSON.parse(data.metadata);
+	const metadata = data != 0 ? JSON.parse(data.metadata) : null;
 	const [hovered, setHovered] = useState(false);
 	const toggleHover = () => setHovered(!hovered);
 
@@ -60,12 +81,12 @@ function NFTPreview({ data, chainId }) {
 	return (
 		<>
 			<NextLink
-				href={`/nft?chain_id=${chainId}&token_address=${data.token_address}&token_id=${data.token_id}`}
+				href={`/nft?chain_id=${chainId}&token_address=${data?.token_address}&token_id=${data?.token_id}`}
 			>
 				<div
 					style={{
 						// border: "3px solid red",
-						// width: "230px",
+						width: "260px",
 						height: "320px",
 						padding: "10px",
 						borderRadius: "10px",
@@ -78,29 +99,35 @@ function NFTPreview({ data, chainId }) {
 					onMouseEnter={toggleHover}
 					onMouseLeave={toggleHover}
 				>
-					<Image
-						className="nftPreviewImage"
-						width="260px"
-						height="260px"
-						src={metadata?.image}
-						loader={contentfulLoader}
-					/>
+					{!metadata && <NFTPreviewContentLoader />}
 
-					<Box style={{ padding: "10px" }}>
-						<div
-							style={{
-								fontWeight: "400",
-								color: "#31344b",
-								fontSize: "1.11rem",
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between",
-							}}
-						>
-							{metadata?.name}
-							<Logos chainId={chainId} />
-						</div>
-					</Box>
+					{metadata && (
+						<Image
+							className="nftPreviewImage"
+							width="260px"
+							height="260px"
+							src={metadata?.image}
+							loader={contentfulLoader}
+						/>
+					)}
+
+					{metadata && (
+						<Box style={{ padding: "10px" }}>
+							<div
+								style={{
+									fontWeight: "400",
+									color: "#31344b",
+									fontSize: "1.11rem",
+									display: "flex",
+									flexDirection: "row",
+									justifyContent: "space-between",
+								}}
+							>
+								{metadata?.name}
+								<Logos chainId={chainId} />
+							</div>
+						</Box>
+					)}
 				</div>
 			</NextLink>
 		</>
@@ -140,15 +167,18 @@ function NFTBalance() {
 
 	// const NFTData = useMemo(() => filter(data?.result), [data]);
 
-	const [NFTData, setNFTData] = useState(null);
+	const [NFTData, setNFTData] = useState(Array(20).fill(0));
 	useEffect(() => {
-		setNFTData(filter(data?.result));
+		let res = filter(data?.result);
+		if (res) {
+			setNFTData(res);
+		}
 	}, [data]);
 
 	return (
 		<Box style={styles.content}>
 			<Box style={styles.NFTs}>
-				{NFTData?.map((item, index) => {
+				{NFTData.map((item, index) => {
 					return (
 						<NFTPreview key={index} data={item} chainId={SWORDIUM_CHAIN_ID} />
 					);
