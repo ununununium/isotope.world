@@ -103,7 +103,10 @@ export default function navbar({ path }) {
 				}}
 			>
 				<NavbarLinkItem href="/" label="Home" />
-				<NavbarLinkItem href="/swordium" label="Swordium" />
+				<NavbarLinkItem
+					href="/NFTCollection?chain_id=0xa869&token_address=0xbd20048caa54526d9dcfcd135708d15723eda46a"
+					label="Swordium"
+				/>
 
 				<NavbarLinkItem href="/about" label="About" />
 			</div>

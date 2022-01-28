@@ -15,7 +15,7 @@ import {
 import { useIPFS } from "../hooks/useIPFS";
 import themeColors from "../theme/theme";
 import NextLink from "next/link";
-
+import { useRouter } from "next/router";
 import { Logos } from "../components/Chains/ChainToLogo";
 import { isWebGL2Available } from "@react-three/drei";
 import ContentLoader from "react-content-loader";
@@ -134,30 +134,31 @@ function NFTPreview({ data, chainId }) {
 	);
 }
 
-// const SWORDIUM_TOKEN_ADDRESS = "0x02E09e142690F2d418858a7e3f443862b0D0D06D";
-// const SWORDIUM_TOKEN_ADDRESS = "0x7F6071864Ee738F80De5c7872B775aDDe7647441";
-// const SWORDIUM_CHAIN_ID = "0x13881";
+// const SWORDIUM_TOKEN_ADDRESS = "0xbd20048cAa54526d9DCfCD135708d15723Eda46a";
+// const SWORDIUM_CHAIN_ID = "0xa869";
+// https://isotope.world/NFTCollection?chain_id=0xa869&token_address=0xbd20048caa54526d9dcfcd135708d15723eda46a
+function NFTCollection() {
+	const router = useRouter();
+	const params = router.query;
+	const { chain_id, token_address } = params;
 
-function NFTBalance() {
 	const { account, token } = useMoralisWeb3Api();
 	// const { chainId, marketAddress, contractABI } = useMoralisDapp();
-	const SWORDIUM_TOKEN_ADDRESS = "0xbd20048cAa54526d9DCfCD135708d15723Eda46a";
-	const SWORDIUM_CHAIN_ID = "0xa869";
+	// const SWORDIUM_TOKEN_ADDRESS = "0xbd20048cAa54526d9DCfCD135708d15723Eda46a";
+	// const SWORDIUM_CHAIN_ID = "0xa869";
 	const {
 		fetch: getNFTBalance,
 		data,
 		error,
 		isLoading,
 	} = useMoralisWeb3ApiCall(token.getAllTokenIds, {
-		chain: SWORDIUM_CHAIN_ID,
-		address: SWORDIUM_TOKEN_ADDRESS,
+		chain: chain_id,
+		address: token_address,
 	});
 
 	useEffect(() => {
-		console.log("fetching");
-		console.log(data);
 		getNFTBalance();
-	}, []);
+	}, [getNFTBalance]);
 
 	// debug
 	useEffect(() => {
@@ -179,13 +180,11 @@ function NFTBalance() {
 		<Box style={styles.content}>
 			<Box style={styles.NFTs}>
 				{NFTData.map((item, index) => {
-					return (
-						<NFTPreview key={index} data={item} chainId={SWORDIUM_CHAIN_ID} />
-					);
+					return <NFTPreview key={index} data={item} chainId={chain_id} />;
 				})}
 			</Box>
 		</Box>
 	);
 }
 
-export default NFTBalance;
+export default NFTCollection;
