@@ -112,3 +112,7 @@ canvas {
 #__next {
 	height: 100%;
 }
+
+.nftPreviewImage {
+	border-radius: 10px;
+}

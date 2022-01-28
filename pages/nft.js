@@ -72,18 +72,6 @@ function NFT(props) {
 	const { chain_id, token_address, token_id } = params;
 
 	const { account, token } = useMoralisWeb3Api();
-	// const { chainId, marketAddress, contractABI } = useMoralisDapp();
-	// const { Moralis } = useMoralis();
-	// const { resolveLink } = useIPFS();
-	// const {
-	// 	fetch: getNFTBalance,
-	// 	data,
-	// 	error,
-	// 	isLoading,
-	// } = useMoralisWeb3ApiCall(account.getNFTsForContract, {
-	// 	chain: chain_id,
-	// 	token_address: token_address,
-	// });
 
 	const {
 		fetch: getNFTBalance,
@@ -171,15 +159,11 @@ function NFT(props) {
 						{metadata && (
 							<div
 								style={{
-									// fontFamily: "Poppins,sans-serif",
-									// fontSize: "20px",
-									color: themeColors.foreground,
-									fontWeight: "350",
-									fontSize: "1rem",
-									// textShadow:
-									// "-8px -8px 12px rgba(255,255,255,0.4) 8px 8px 12px rgba(0,0,0,0.08)",
-									// caretColor: "#262626",
-									// outline: "none",
+									color: themeColors.background,
+									fontWeight: "600",
+									fontSize: "1.5rem",
+									textShadow:
+										"2px 2px 10px rgb(0,0,0), -2px -2px 15px rgb(255,255,255)",
 								}}
 							>
 								{metadata.name}
@@ -353,76 +337,6 @@ function NFT(props) {
 			</Box>
 		</>
 	);
-	// return (
-	// 	<>
-	// 		<Box style={styles.content}>
-	// 			{metadata && (
-	// 				<Box style={styles.nftDetail}>
-	// 					<Box style={styles.row1}>
-	// 						<ThreeDimModel
-	// 							style={styles.model}
-	// 							gltf_path={metadata.gltf_model}
-	// 							scale={1.5}
-	// 						/>
-
-	// 						<Box style={styles.description}>
-	// 							<h2
-	// 								style={{
-	// 									borderRadius: "10px",
-	// 									background: "#e1ebf5",
-	// 									boxShadow:
-	// 										"inset 4px 4px 8px #bfc8d0,inset -4px -4px 8px #ffffff",
-	// 									textAlign: "center",
-	// 									color: themeColors.foreground,
-	// 								}}
-	// 							>
-	// 								{metadata.name}
-	// 							</h2>
-	// 							<div
-	// 								style={{
-	// 									borderRadius: "10px",
-	// 									background: "#e1ebf5",
-	// 									boxShadow:
-	// 										"inset 4px 4px 8px #bfc8d0,inset -4px -4px 8px #ffffff",
-	// 									textAlign: "center",
-	// 									color: themeColors.foreground,
-	// 									height: "307px",
-	// 									padding: "8px",
-	// 									marginTop: "20px",
-	// 									overflow: "hidden",
-	// 								}}
-	// 							>
-	// 								{NFT_ATTRIBUTES.map((e, index) => {
-	// 									return (
-	// 										<div key={index}>{e.trait_type + " : " + e.value}</div>
-	// 									);
-	// 								})}
-	// 							</div>
-	// 						</Box>
-	// 					</Box>
-
-	// 					<p
-	// 						style={{
-	// 							borderRadius: "10px",
-	// 							background: "#e1ebf5",
-	// 							boxShadow: "4px 4px 8px #bfc8d0,-4px -4px 8px #ffffff",
-	// 							textAlign: "start",
-	// 							color: themeColors.foreground,
-	// 							border: "none",
-	// 							marginTop: "8px",
-	// 							width: "100%",
-	// 							fontSize: "20px",
-	// 							padding: "50px",
-	// 							fontSize: "1rem",
-	// 						}}
-	// 					>
-	// 						{metadata.description}
-	// 					</p>
-	// 				</Box>
-	// 			)}
-	// 		</Box>
-	// 	</>
-	// );
 }
 
 export default NFT;

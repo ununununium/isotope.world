@@ -9,4 +9,7 @@ module.exports = {
 		useSuspense: true,
 		wait: true,
 	},
+	images: {
+		domains: ["ipfs.moralis.io"],
+	},
 };

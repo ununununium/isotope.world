@@ -81,11 +81,16 @@ const menuItems = [
 		value: "Mumbai",
 		icon: <PolygonLogo />,
 	},
-	// {
-	//   key: "0xa86a",
-	//   value: "Avalanche",
-	//   icon: <AvaxLogo />,
-	// },
+	{
+		key: "0xa86a",
+		value: "Avalanche",
+		icon: <AvaxLogo />,
+	},
+	{
+		key: "0xa869",
+		value: "Fuji",
+		icon: <AvaxLogo />,
+	},
 ];
 
 function Chains() {

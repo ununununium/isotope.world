@@ -1,12 +1,11 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { Button, Typography } from "@mui/material";
-import { Menu } from "antd";
 import themeColors from "../theme/theme";
 import Logo from "./logo";
 import Account from "./Account";
 import Chains from "./Chains";
 import NextLink from "next/link";
+import { useState } from "react";
 
 const styles = {
 	content: {
@@ -34,6 +33,7 @@ const styles = {
 		// boxShadow:
 		// 	"6px 6px 14px 0 rgba(0, 0, 0, 0.2),-8px -8px 18px 0 rgba(255, 255, 255, 0.55)",
 		backgroundColor: themeColors.background,
+		// border: "1px solid black",
 	},
 	headerRight: {
 		display: "flex",
@@ -51,42 +51,62 @@ const styles = {
 		minHeight: "380px",
 	},
 };
+
+const NavbarLinkItem = ({ href, label }) => {
+	const [hovered, setHovered] = useState(false);
+	const toggleHover = () => setHovered(!hovered);
+
+	return (
+		<>
+			<NextLink href={href}>
+				<div
+					style={{
+						height: "42px",
+						padding: "0 15px",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						width: "fit-content",
+						borderRadius: "12px",
+						// backgroundColor: "rgb(244, 244, 244)",
+						background: themeColors.background,
+						boxShadow: hovered
+							? "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff"
+							: "none",
+						cursor: "pointer",
+						color: themeColors.foreground,
+						transitionDuration: "0.4s",
+					}}
+					onMouseEnter={toggleHover}
+					onMouseLeave={toggleHover}
+				>
+					{label}
+				</div>
+			</NextLink>
+		</>
+	);
+};
+
 export default function navbar({ path }) {
 	return (
 		<Box style={styles.header}>
 			<Logo />
-			<Menu
-				mode="horizontal"
+
+			<div
 				style={{
 					display: "flex",
-					fontSize: "1rem",
-					marginLeft: "50px",
-					width: "100%",
-					backgroundColor: themeColors.background,
-					// color: themeColors.foreground
-					// color: "#31344b !important",
-					borderBottom: "none",
-					fontWeight: "400",
+					flexDirection: "row",
+					gap: 10,
+					marginLeft: "auto",
+					marginRight: "50px",
+					// backgroundColor: "red",
 				}}
-				defaultSelectedKeys={["/"]}
-				selectedKeys={[path]}
 			>
-				<Menu.Item key="/">
-					<NextLink href="/">Home</NextLink>
-				</Menu.Item>
+				<NavbarLinkItem href="/" label="Home" />
+				<NavbarLinkItem href="/swordium" label="Swordium" />
 
-				<Menu.Item key="/about">
-					<NextLink href="/about">About</NextLink>
-				</Menu.Item>
-
-				<Menu.Item key="/swordium">
-					<NextLink href="/swordium">Swordium</NextLink>
-				</Menu.Item>
-
-				{/* <Menu.Item key="/my_nfts">
-					<NextLink href="/my_nfts">My NFTs</NextLink>
-				</Menu.Item> */}
-			</Menu>
+				<NavbarLinkItem href="/about" label="About" />
+			</div>
 
 			<div style={styles.headerRight}>
 				{/* <Chains /> */}

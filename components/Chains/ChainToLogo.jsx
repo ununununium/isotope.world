@@ -56,6 +56,11 @@ const LOGO_DICT = {
 		value: "Avalanche",
 		icon: <AvaxLogo />,
 	},
+	"0xa869": {
+		key: "0xa869",
+		value: "Fuji",
+		icon: <AvaxLogo />,
+	},
 };
 
 export const Logos = ({ chainId, style }) => {
