@@ -6,6 +6,7 @@ import Account from "./Account";
 import Chains from "./Chains";
 import NextLink from "next/link";
 import { useState } from "react";
+import { SiDiscord } from "react-icons/si";
 
 const styles = {
 	content: {
@@ -89,6 +90,52 @@ const NavbarLinkItem = ({ href, label }) => {
 	);
 };
 
+const DiscordJoinButton = () => {
+	const [hovered, setHovered] = useState(false);
+	const toggleHover = () => setHovered(!hovered);
+
+	return (
+		<a
+			href={"https://discord.gg/hM8g6jjddv"}
+			target={"_blank"}
+			rel={"noopener noreferrer"}
+		>
+			<div
+				style={{
+					width: 120,
+					height: 38,
+					color: "white",
+					fontSize: "1.4rem",
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center",
+					backgroundColor: themeColors.foreground,
+					justifyContent: "center",
+					borderRadius: 10,
+					boxShadow: hovered
+						? "rgb(232 65 65) 2px 2px 30px, rgb(232 65 65) -2px -2px 30px"
+						: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+					transition: "0.4s",
+					cursor: "pointer",
+				}}
+				onMouseEnter={toggleHover}
+				onMouseLeave={toggleHover}
+			>
+				<SiDiscord style={{ marginBottom: 4, marginRight: 12 }} />
+				<div
+					style={{
+						color: "white",
+						fontSize: "1rem",
+						fontFamily: "'Oxanium', cursive",
+					}}
+				>
+					JOIN US
+				</div>
+			</div>
+		</a>
+	);
+};
+
 export default function navbar({ path }) {
 	return (
 		<Box style={styles.header}>
@@ -102,15 +149,17 @@ export default function navbar({ path }) {
 					marginLeft: "auto",
 					marginRight: "50px",
 					// backgroundColor: "red",
+					alignItems: "center",
 				}}
 			>
-				<NavbarLinkItem href="/" label="Home" />
+				<DiscordJoinButton />
+				{/* <NavbarLinkItem href="/" label="Home" /> */}
 				<NavbarLinkItem
 					href="/NFTCollection?chain_id=0xa869&token_address=0xbd20048caa54526d9dcfcd135708d15723eda46a"
 					label="Swordium"
 				/>
 
-				<NavbarLinkItem href="/about" label="About" />
+				<NavbarLinkItem href="/team" label="Team" />
 			</div>
 
 			<div style={styles.headerRight}>

@@ -10,20 +10,14 @@ import {
 import axios from "axios";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 
-// Create 800 objects with random position and rotation data
-const DISPLAY_AMOUNT = 5;
-const positions = [...Array(DISPLAY_AMOUNT)].map((_, i) => ({
-	index: i + 1,
-	position: [(i - DISPLAY_AMOUNT / 2 + 0.5) * 5, 0, 0],
-	// position: [
-	// 	30 - Math.random() * 60,
-	// 	30 - Math.random() * 60,
-	// 	30 - Math.random() * 60,
-	// ],
-	rotation: [0, 0.01, 0],
-}));
+export default function Swords({ amount, indicies, style }) {
+	const DISPLAY_AMOUNT = amount;
+	const positions = [...Array(DISPLAY_AMOUNT)].map((_, i) => ({
+		index: i + 1,
+		position: [(i - DISPLAY_AMOUNT / 2 + 0.5) * DISPLAY_AMOUNT, 0, 0],
+		rotation: [0, 0.01, 0],
+	}));
 
-export default function Swords() {
 	const [data, setData] = useState([]);
 
 	useEffect(async () => {
@@ -33,36 +27,24 @@ export default function Swords() {
 	}, []);
 
 	return (
-		<Canvas
-			// Quick shortcut for setting up shadow maps
-			// shadows
-			// Only render on changes and movement
-			// frameloop="demand"
-			// Pixelratio using window.devicePixelRatio, no less than 1, no higher than 2
-			// dpr={[1, 2]}
-			camera={{ position: [0, 0, 10] }}
-			// Nice trick here, if your scene is static you can switch off shadowmap auto-update for more performance
-			// onCreated={({ gl }) => (
-			// 	(gl.shadowMap.autoUpdate = false), (gl.shadowMap.needsUpdate = true)
-			// )}
-			style={{
-				background: "rgb(225,235,245)",
-				background:
-					"linear-gradient(180deg, rgba(225,235,245,1) 0%, rgba(255,208,208,1) 51%, rgba(225,235,245,1) 100%)",
-			}}
-		>
+		<Canvas camera={{ position: [0, 0, 10] }} style={style}>
 			<Suspense fallback={null}>
-				{/* Let's render 800 Bust components with the data above */}
 				{data.length > 0 &&
+					amount != 1 &&
 					positions.map((props, i) => (
-						<Bust key={i} {...props} path={data[i]} />
+						<Bust key={i} {...props} path={data[indicies[i]]} />
 					))}
+				{data.length > 0 && amount === 1 && (
+					<Model
+						path={data[indicies[0]]}
+						scale={3}
+						position={[0, 0, 0]}
+						rotation={[0, 0.01, 0]}
+					/>
+				)}
 				<OrbitControls zoomSpeed={0.075} />
-				{/* <pointLight position={[0, 0, 0]} intensity={0.5} /> */}
 				<spotLight intensity={0.8} position={[0, 10, 60]} />
 				<spotLight intensity={0.8} position={[0, -10, -60]} />
-				{/* <spotLight intensity={3} position={[10, -10, 30]} /> */}
-				{/* <Environment preset="city" /> */}
 			</Suspense>
 		</Canvas>
 	);
@@ -83,13 +65,7 @@ function Bust(props) {
 
 const Model = ({ path, scale, position, rotation }) => {
 	const ref = useRef();
-
 	let gltf = useLoader(GLTFLoader, path);
-	// let gltf = useLoader(GLTFLoader, path, (loader) => {
-	// 	const dracoLoader = new DRACOLoader();
-	// 	dracoLoader.setDecoderPath("/draco-gltf/");
-	// 	loader.setDRACOLoader(dracoLoader);
-	// });
 
 	useFrame((state, delta) => {
 		ref.current.rotation.x += rotation[0];
@@ -107,7 +83,4 @@ const Model = ({ path, scale, position, rotation }) => {
 			/>
 		</>
 	);
-
-	// const obj = useLoader(OBJLoader, "../../cube_blue.obj");
-	// return <primitive object={obj} />;
 };
