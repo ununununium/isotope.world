@@ -45,6 +45,11 @@ export default function Swords() {
 			// onCreated={({ gl }) => (
 			// 	(gl.shadowMap.autoUpdate = false), (gl.shadowMap.needsUpdate = true)
 			// )}
+			style={{
+				background: "rgb(225,235,245)",
+				background:
+					"linear-gradient(180deg, rgba(225,235,245,1) 0%, rgba(255,208,208,1) 51%, rgba(225,235,245,1) 100%)",
+			}}
 		>
 			<Suspense fallback={null}>
 				{/* Let's render 800 Bust components with the data above */}

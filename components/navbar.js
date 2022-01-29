@@ -76,6 +76,8 @@ const NavbarLinkItem = ({ href, label }) => {
 						cursor: "pointer",
 						color: themeColors.foreground,
 						transitionDuration: "0.4s",
+						fontFamily: "'Oxanium', cursive",
+						fontSize: 18,
 					}}
 					onMouseEnter={toggleHover}
 					onMouseLeave={toggleHover}

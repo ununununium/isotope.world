@@ -10,6 +10,10 @@ function MyApp({ Component, pageProps, router }) {
 
 	return (
 		<MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
+			<style>
+				@import
+				url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Oxanium:wght@200;300;400;500;600;700;800&display=swap');
+			</style>
 			<MoralisDappProvider>
 				<Layout router={router}>
 					<Component {...pageProps} key={router.route} />

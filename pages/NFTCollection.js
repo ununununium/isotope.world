@@ -121,6 +121,7 @@ function NFTPreview({ data, chainId }) {
 									display: "flex",
 									flexDirection: "row",
 									justifyContent: "space-between",
+									fontFamily: "'Oxanium', cursive",
 								}}
 							>
 								{metadata?.name}
