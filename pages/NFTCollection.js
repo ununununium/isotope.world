@@ -108,6 +108,7 @@ function NFTPreview({ data, chainId }) {
 							height="260px"
 							src={metadata?.image}
 							loader={contentfulLoader}
+							alt={""}
 						/>
 					)}
 
