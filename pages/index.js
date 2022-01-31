@@ -187,9 +187,7 @@ function Home() {
 					</div>
 
 					<NavbarLinkItem
-						href={
-							"/NFTCollection?chain_id=0xa869&token_address=0xbd20048caa54526d9dcfcd135708d15723eda46a"
-						}
+						href={"/collection?id=EGCCkzdUXjy5ulOZIPXkrrjn"}
 						label={"Explore Swordium 3D NFT Collection"}
 					/>
 				</div>
@@ -418,9 +416,7 @@ function Home() {
 							</div>
 
 							<NavbarLinkItem
-								href={
-									"/NFTCollection?chain_id=0xa869&token_address=0xbd20048caa54526d9dcfcd135708d15723eda46a"
-								}
+								href={"/collection?id=EGCCkzdUXjy5ulOZIPXkrrjn"}
 								label={"Explore Swordium 3D NFT Collection"}
 							/>
 						</div>

@@ -22,7 +22,7 @@ import ContentLoader from "react-content-loader";
 import SWORDIUM_ABI from "../ABI/swordium_erc1155_abi.json";
 
 const SWORDIUM_SMARTCONTRACT_ADDRESS =
-	"0x7F6071864Ee738F80De5c7872B775aDDe7647441";
+	"0x5242F9889f37cC3308800AE515057a47b080F5a8";
 
 const styles = {
 	content: {

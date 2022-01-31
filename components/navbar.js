@@ -160,7 +160,7 @@ export default function navbar({ path }) {
 				/> */}
 
 				<NavbarLinkItem
-					href="/collection?id=hlmZ7YBxrR5ixF5CAcshsBYF"
+					href="/collection?id=EGCCkzdUXjy5ulOZIPXkrrjn"
 					label="Swordium"
 				/>
 				<NavbarLinkItem href="/team" label="Team" />
