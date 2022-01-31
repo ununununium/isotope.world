@@ -107,19 +107,6 @@ const BlockchainInfoContentLoader = (props) => {
 
 const styles = {};
 
-const findNFTbyId = (nfts, token_id) => {
-	const results = nfts?.filter((nft) => {
-		return JSON.parse(nft.metadata)?.gltf_model && nft.token_id === token_id;
-	});
-	if (results?.length > 0) {
-		const NFTData = results[0];
-		const metadata = JSON.parse(NFTData?.metadata);
-		return { NFTData, metadata };
-	} else {
-		return { NFTData: undefined, metadata: undefined };
-	}
-};
-
 const AttributeItem = ({ item, key }) => {
 	return (
 		<div
@@ -171,13 +158,49 @@ const BlockchainInfoItem = ({ title, children }) => {
 	);
 };
 
-function NFT(props) {
+const Button = ({ style, children, onClick }) => {
+	const [hovered, setHovered] = useState(false);
+	const toggleHover = () => setHovered(!hovered);
+	return (
+		<button
+			style={{
+				width: "100%",
+				// height: "100px",
+				borderRadius: "10px",
+				boxShadow: hovered
+					? "rgb(232 65 65) 2px 2px 30px, rgb(232 65 65) -2px -2px 30px"
+					: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "center",
+				alignItems: "center",
+				marginTop: "30px",
+				backgroundColor: themeColors.foreground,
+				color: themeColors.background,
+				fontSize: "2rem",
+				fontWeight: "bold",
+				transition: "0.4s",
+				cursor: "pointer",
+				border: "none",
+				...style,
+			}}
+			onMouseEnter={toggleHover}
+			onMouseLeave={toggleHover}
+			onClick={onClick}
+		>
+			{children}
+		</button>
+	);
+};
+
+function NFT() {
 	const router = useRouter();
 	const params = router.query;
 	const { collectionId, nftId } = params;
 
 	const { Moralis } = useMoralis();
 	const [metadata, setMetadata] = useState(null);
+	const [NFTData, setNFTData] = useState(null);
 
 	useEffect(async () => {
 		if (Moralis && collectionId && nftId) {
@@ -186,13 +209,43 @@ function NFT(props) {
 			query.equalTo("objectId", nftId);
 			const result = await query.first();
 
-			let metadataURL = result?.attributes.metadata;
-			let fetchResult = await axios(metadataURL);
-			console.log(fetchResult.data);
+			let NFTData = result?.attributes;
+			setNFTData(NFTData);
 
+			let metadataURL = NFTData.metadata;
+			let fetchResult = await axios(metadataURL);
+
+			console.log(fetchResult.data);
 			setMetadata(fetchResult.data);
 		}
 	}, [Moralis, collectionId, nftId]);
+
+	const mint = async () => {
+		console.log("mint!!!");
+		if (!metadata) return;
+
+		console.log(NFTData);
+
+		console.log(metadata);
+	};
+
+	const NFTOperationSection = () => {
+		if (!NFTData) {
+			return <></>;
+		}
+
+		if (!NFTData.minted) {
+			return <Button onClick={mint}>Mint</Button>;
+		}
+
+		if (NFTData.minted && !NFTData.listed) {
+			return <Button>List</Button>;
+		}
+
+		if (NFTData.minted && NFTData.listed) {
+			return <Button>BUY {NFTData.price}</Button>;
+		}
+	};
 
 	return (
 		<>
@@ -353,6 +406,34 @@ function NFT(props) {
 								})}
 						</div>
 					</Box>
+
+					<NFTOperationSection />
+
+					{/* <div
+						style={{
+							width: "100%",
+							// height: "100px",
+							borderRadius: "10px",
+							boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "center",
+							alignItems: "center",
+							marginTop: "30px",
+							backgroundColor: themeColors.foreground,
+						}}
+					>
+						<div
+							style={{
+								fontSize: "2rem",
+								color: themeColors.background,
+								fontWeight: "bold",
+								textAlign: "center",
+							}}
+						>
+							Mint
+						</div>
+					</div> */}
 
 					{/* <Box
 						style={{

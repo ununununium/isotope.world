@@ -16,7 +16,12 @@ import ThreeDRotationIcon from "@mui/icons-material/ThreeDRotation";
 import PublicIcon from "@mui/icons-material/Public";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
+import { MdGeneratingTokens } from "react-icons/md";
+import { GrSecure } from "react-icons/gr";
 import { SiDiscord } from "react-icons/si";
+import { BsFillSafeFill } from "react-icons/bs";
+import { MdCloudUpload } from "react-icons/md";
+import { GiImperialCrown } from "react-icons/gi";
 
 const styles = {
 	content: {
@@ -99,8 +104,8 @@ const IntroductionCard = ({ Icon, title, text }) => {
 			onMouseEnter={toggleHover}
 			onMouseLeave={toggleHover}
 		>
-			<div style={{ width: 100, height: 100, overflow: "hidden" }}>
-				<Icon style={{ width: 80, height: 80 }} />
+			<div style={{ height: 80, overflow: "hidden" }}>
+				<Icon style={{ width: 70, height: 70 }} />
 			</div>
 
 			<div
@@ -120,6 +125,7 @@ const IntroductionCard = ({ Icon, title, text }) => {
 					fontFamily: "'Oxanium', cursive",
 					fontSize: "1rem",
 					textAlign: "left",
+					height: "125.7px",
 				}}
 			>
 				{text}
@@ -190,7 +196,7 @@ function Home() {
 
 				<div
 					style={{
-						height: "calc(100vh - 100px)",
+						// height: "calc(100vh - 100px)",
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
@@ -206,7 +212,7 @@ function Home() {
 						}}
 						id="introduction"
 					>
-						What is Isotope.World?
+						Our Primary Objectives
 					</div>
 
 					<div
@@ -221,16 +227,66 @@ function Home() {
 						}}
 					>
 						<IntroductionCard
+							Icon={MdGeneratingTokens}
+							title={"Tokenization Service"}
+							text={
+								"Provide streamlined uploading, minting, listing services for content creators. Getting your products on-chain is just a few clicks away."
+							}
+						/>
+						<IntroductionCard
 							Icon={StorefrontIcon}
 							title={"NFT Marketplace"}
-							text={"A perfect place to mint, buy, sell or bid NFTs."}
+							text={
+								"Develop a user-friendly marketplace for creators and customers to trade digital asset collections. Trading made easy without the jargon!"
+							}
 						/>
+						<IntroductionCard
+							Icon={BsFillSafeFill}
+							title={"Secure Showcase"}
+							text={
+								"Provide creators with a secure platform to reveal their initial designs to the world. No more copyright infringement or stolen content."
+							}
+						/>
+					</div>
+				</div>
+				<div
+					style={{
+						// height: "calc(100vh - 100px)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						background: themeColors.background,
+					}}
+				>
+					<div
+						style={{
+							fontFamily: "'Oxanium', cursive",
+							fontSize: 32,
+							color: themeColors.foreground,
+							textAlign: "center",
+							marginTop: 100,
+						}}
+						id="introduction"
+					>
+						Key Features
+					</div>
 
+					<div
+						style={{
+							width: "940px",
+							display: "flex",
+							flexDirection: "row",
+
+							gap: 20,
+							flexWrap: "wrap",
+							marginTop: 20,
+						}}
+					>
 						<IntroductionCard
 							Icon={ThreeDRotationIcon}
 							title={"3D NFTs"}
 							text={
-								"We support viewing and interacting with 3D NFTs on our website."
+								"We provide state-of-art 3D NFT viewing and interacting user experience."
 							}
 						/>
 
@@ -238,38 +294,79 @@ function Home() {
 							Icon={PublicIcon}
 							title={"Metaverse Ready"}
 							text={
-								"All 3D NFTs will be Metaverse Ready. You will also able to share the same item across different metaverses."
+								"Your 3D NFTs are ready for metaverse from the moment of creation. Raw model file access will be granted for owners to exhibit across different metaverses."
 							}
 						/>
 
 						<IntroductionCard
-							Icon={() => (
+							Icon={({ style }) => (
 								<Image
-									width={80}
-									height={80}
+									width={70}
+									height={70}
+									style={style}
 									src={require("/assets/avalanche-avax.svg")}
 									alt=""
 								/>
 							)}
-							title={"Resides on Avalanche"}
+							title={"Mint on Avalanche"}
 							text={
-								"Avalanche is featured in high transaction speed, low costs, and eco-friendliness. Every NFT will be deployed on Avalanche."
+								<div>
+									{
+										"NFTs will be minted on Avalanche Chain for the sake of high transaction speed, low costs, and eco-friendliness."
+									}{" "}
+									<a
+										href={"https://www.avax.network/"}
+										target="_blank"
+										rel={"noopener noreferrer"}
+									>
+										<br /> Learn more about Avalanche
+									</a>
+								</div>
 							}
 						/>
 
 						<IntroductionCard
-							Icon={MovieFilterIcon}
-							title={"Create Your Own NFT"}
+							Icon={({ style }) => (
+								<Image
+									width={175}
+									height={70}
+									style={style}
+									src={require("/assets/IPFS_logo.png")}
+									alt=""
+								/>
+							)}
+							title={"Distributed Data Storage"}
 							text={
-								"You will able to create and mint your own NFT of any content"
+								<div>
+									{
+										"NFT data will be stored on IPFS for the sake of immutability, efficiency and permanency."
+									}{" "}
+									<br />
+									<a
+										href={"https://ipfs.io/"}
+										target="_blank"
+										rel={"noopener noreferrer"}
+									>
+										{" "}
+										Learn more about IPFS
+									</a>
+								</div>
 							}
 						/>
 
 						<IntroductionCard
-							Icon={AllInclusiveIcon}
-							title={"NFT of All Type"}
+							Icon={MdCloudUpload}
+							title={"Create NFTs for Free"}
 							text={
-								"We ofcourse support all types of NFTs including 3D models, 2D images, videos, songs etc."
+								"Creating and hosting your pre-minted NFTs on our platform is completely free."
+							}
+						/>
+
+						<IntroductionCard
+							Icon={GiImperialCrown}
+							title={"Eternal Royalty Fee"}
+							text={
+								"When transaction happened, a designated percentage of the transaction amount will be rewarded back to the NFT creator."
 							}
 						/>
 					</div>

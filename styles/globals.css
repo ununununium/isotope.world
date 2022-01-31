@@ -19,7 +19,9 @@ a {
 }
 
 * {
-	font-family: "Nunito Sans", sans-serif;
+	/* font-family: "Nunito Sans", sans-serif;
+	 */
+	font-family: "Oxanium", cursive;
 }
 
 .identicon {
