@@ -22,7 +22,6 @@ import { Logos } from "../components/Chains/ChainToLogo";
 
 import NextLink from "next/link";
 import ContentLoader from "react-content-loader";
-import axios from "axios";
 
 const LOADING_ANIMATION_SPEED = 1;
 
@@ -174,25 +173,39 @@ const BlockchainInfoItem = ({ title, children }) => {
 function NFT(props) {
 	const router = useRouter();
 	const params = router.query;
-	const { collectionId, nftId } = params;
+	const { chain_id, token_address, token_id } = params;
 
-	const { Moralis } = useMoralis();
-	const [metadata, setMetadata] = useState(null);
+	const { account, token } = useMoralisWeb3Api();
 
-	useEffect(async () => {
-		if (Moralis && collectionId && nftId) {
-			const NFT = Moralis.Object.extend("NFT");
-			const query = new Moralis.Query(NFT);
-			query.equalTo("objectId", nftId);
-			const result = await query.first();
+	const {
+		fetch: getNFTBalance,
+		data,
+		error,
+		isLoading,
+	} = useMoralisWeb3ApiCall(token.getAllTokenIds, {
+		chain: chain_id,
+		address: token_address,
+	});
 
-			let metadataURL = result?.attributes.metadata;
-			let fetchResult = await axios(metadataURL);
-			console.log(fetchResult.data);
+	useEffect(() => {
+		getNFTBalance();
+	}, [getNFTBalance]);
 
-			setMetadata(fetchResult.data);
-		}
-	}, [Moralis, collectionId, nftId]);
+	// debug
+	useEffect(() => {
+		console.log("data=====");
+		console.log(data);
+	}, [data]);
+
+	const { NFTData, metadata } = useMemo(
+		() => findNFTbyId(data?.result, token_id),
+		[data]
+	);
+
+	console.log("metadata========");
+	console.log(NFTData);
+	console.log(metadata);
+	console.log("========");
 
 	return (
 		<>
@@ -354,7 +367,7 @@ function NFT(props) {
 						</div>
 					</Box>
 
-					{/* <Box
+					<Box
 						style={{
 							width: "100%",
 							// height: "100px",
@@ -409,7 +422,7 @@ function NFT(props) {
 								</BlockchainInfoItem>
 							</div>
 						)}
-					</Box> */}
+					</Box>
 				</Box>
 			</Box>
 		</>

@@ -154,11 +154,15 @@ export default function navbar({ path }) {
 			>
 				<DiscordJoinButton />
 				{/* <NavbarLinkItem href="/" label="Home" /> */}
-				<NavbarLinkItem
+				{/* <NavbarLinkItem
 					href="/NFTCollection?chain_id=0xa869&token_address=0xbd20048caa54526d9dcfcd135708d15723eda46a"
 					label="Swordium"
-				/>
+				/> */}
 
+				<NavbarLinkItem
+					href="/collection?name=Swordium&id=E5cUJIRLEv4lipXWbFA6qaPB"
+					label="Swordium"
+				/>
 				<NavbarLinkItem href="/team" label="Team" />
 			</div>
 
