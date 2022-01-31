@@ -17,171 +17,371 @@ import themeColors from "../theme/theme";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { Logos } from "../components/Chains/ChainToLogo";
-
+import { isWebGL2Available } from "@react-three/drei";
 import ContentLoader from "react-content-loader";
-const styles = {
-	content: {
-		display: "flex",
-		justifyContent: "center",
-		backgroundColor: themeColors.background,
-		flexDirection: "column",
-		width: 940,
-	},
-	NFTs: {
-		display: "flex",
-		flexWrap: "wrap",
-		WebkitBoxPack: "start",
-		justifyContent: "flex-start",
-		gap: "50px",
-		// backgroundColor: "red",
-		maxWidth: "940px",
-	},
-};
-const LOADING_ANIMATION_SPEED = 2;
-const NFTPreviewContentLoader = (props) => {
-	return (
-		<ContentLoader
-			speed={LOADING_ANIMATION_SPEED}
-			width={240}
-			height={320}
-			viewBox="0 0 240 320"
-			backgroundColor={themeColors.loadingBackground}
-			foregroundColor={themeColors.loadingForeground}
-		>
-			{/* Only SVG shapes */}
-			<rect x="0" y="0" rx="10" ry="10" width="240" height="240" />
+import SWORDIUM_ABI from "../ABI/swordium_erc1155_abi.json";
+import NFTGrid from "../components/NFTGrid";
 
-			<rect x="0" y="260" rx="5" ry="5" width="190" height="30" />
-			<rect x="210" y="260" rx="5" ry="5" width="30" height="30" />
-		</ContentLoader>
-	);
-};
+// const SWORDIUM_SMARTCONTRACT_ADDRESS =
+// 	"0x7F6071864Ee738F80De5c7872B775aDDe7647441";
 
-function NFTPreview({ data, chainId }) {
-	const metadata = data != 0 ? JSON.parse(data.metadata) : null;
-	const [hovered, setHovered] = useState(false);
-	const toggleHover = () => setHovered(!hovered);
+// const styles = {
+// 	content: {
+// 		display: "flex",
+// 		justifyContent: "center",
+// 		backgroundColor: themeColors.background,
+// 		position: "relative",
+// 		marginBottom: "50px",
+// 	},
+// 	NFTs: {
+// 		display: "flex",
+// 		flexWrap: "wrap",
+// 		WebkitBoxPack: "start",
+// 		justifyContent: "flex-start",
+// 		gap: "50px",
+// 		// backgroundColor: "red",
+// 		maxWidth: "940px",
+// 		padding: 28,
+// 	},
+// };
+// const LOADING_ANIMATION_SPEED = 2;
+// const NFTPreviewContentLoader = (props) => {
+// 	return (
+// 		<ContentLoader
+// 			speed={LOADING_ANIMATION_SPEED}
+// 			width={240}
+// 			height={320}
+// 			viewBox="0 0 240 320"
+// 			backgroundColor={themeColors.loadingBackground}
+// 			foregroundColor={themeColors.loadingForeground}
+// 		>
+// 			{/* Only SVG shapes */}
+// 			<rect x="0" y="0" rx="10" ry="10" width="240" height="240" />
 
-	const contentfulLoader = ({ src, quality, width }) => {
-		const params = [`w=${width}`];
+// 			<rect x="0" y="260" rx="5" ry="5" width="190" height="30" />
+// 			<rect x="210" y="260" rx="5" ry="5" width="30" height="30" />
+// 		</ContentLoader>
+// 	);
+// };
 
-		if (quality) {
-			params.push(`q=${quality}`);
-		}
+// const MintingLoader = () => {
+// 	return (
+// 		<ContentLoader
+// 			speed={LOADING_ANIMATION_SPEED}
+// 			width={240}
+// 			height={34.67}
+// 			viewBox="0 0 240 34.67"
+// 			backgroundColor={themeColors.foreground}
+// 			foregroundColor={themeColors.background}
+// 		>
+// 			{/* Only SVG shapes */}
+// 			<rect x="0" y="0" rx="10" ry="10" width="240" height="34.67" />
+// 		</ContentLoader>
+// 	);
+// };
 
-		return `${src}?${params.join("&")}`;
-	};
+// const Button = ({ style, children, onClick }) => {
+// 	return (
+// 		<button
+// 			style={{
+// 				width: "100%",
+// 				// height: "100px",
+// 				borderRadius: "10px",
+// 				boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+// 				display: "flex",
+// 				flexDirection: "column",
+// 				justifyContent: "center",
+// 				alignItems: "center",
+// 				marginTop: "30px",
+// 				backgroundColor: themeColors.foreground,
+// 				color: themeColors.background,
+// 				fontSize: "2rem",
+// 				fontWeight: "bold",
+// 				transition: "0.4s",
+// 				cursor: "pointer",
+// 				border: "none",
+// 				...style,
+// 			}}
+// 			onClick={onClick}
+// 		>
+// 			{children}
+// 		</button>
+// 	);
+// };
 
-	return (
-		<>
-			<NextLink
-				href={`/nft?chain_id=${chainId}&token_address=${data?.token_address}&token_id=${data?.token_id}`}
-			>
-				<div
-					style={{
-						// border: "3px solid red",
-						width: "260px",
-						height: "320px",
-						padding: "10px",
-						borderRadius: "10px",
-						boxShadow: hovered
-							? "rgb(232 65 65) 2px 2px 30px, rgb(232 65 65) -2px -2px 30px"
-							: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
-						transition: "0.4s",
-						cursor: "pointer",
-					}}
-					onMouseEnter={toggleHover}
-					onMouseLeave={toggleHover}
-				>
-					{!metadata && <NFTPreviewContentLoader />}
+// function NFTPreview({ data, chainId }) {
+// 	const { Moralis } = useMoralis();
 
-					{metadata && (
-						<Image
-							className="nftPreviewImage"
-							width="260px"
-							height="260px"
-							src={metadata?.image}
-							loader={contentfulLoader}
-							alt={""}
-						/>
-					)}
+// 	// const metadata = data != 0 ? JSON.parse(data.metadata) : null;
+// 	const [metadata, setMetadata] = useState(null);
+// 	const { walletAddress } = useMoralisDapp();
+// 	const [hovered, setHovered] = useState(false);
+// 	const [isMinting, setIsMinting] = useState(false);
+// 	const [showSuccess, setShowSuccess] = useState(false);
+// 	const [showFail, setShowFail] = useState(false);
 
-					{metadata && (
-						<Box style={{ padding: "10px" }}>
-							<div
-								style={{
-									fontWeight: "400",
-									color: "#31344b",
-									fontSize: "1.11rem",
-									display: "flex",
-									flexDirection: "row",
-									justifyContent: "space-between",
-									fontFamily: "'Oxanium', cursive",
-								}}
-							>
-								{metadata?.name}
-								<Logos chainId={chainId} />
-							</div>
-						</Box>
-					)}
-				</div>
-			</NextLink>
-		</>
-	);
-}
+// 	const toggleHover = () => setHovered(!hovered);
+
+// 	useEffect(async () => {
+// 		if (data) {
+// 			const NFTQuery = new Moralis.Query(data);
+// 			NFTQuery.equalTo("objectId", data.id);
+// 			let NFTRes = await NFTQuery.first();
+// 			setMetadata(NFTRes.attributes);
+// 		}
+// 	}, [data]);
+
+// 	const contentfulLoader = ({ src, quality, width }) => {
+// 		const params = [`w=${width}`];
+
+// 		if (quality) {
+// 			params.push(`q=${quality}`);
+// 		}
+
+// 		return `${src}?${params.join("&")}`;
+// 	};
+
+// 	const mint = async () => {
+// 		setIsMinting(true);
+
+// 		if (!metadata) {
+// 			setIsMinting(false);
+// 			return;
+// 		}
+
+// 		console.log(metadata);
+
+// 		const sendOptions = {
+// 			contractAddress: SWORDIUM_SMARTCONTRACT_ADDRESS,
+// 			functionName: "mint",
+// 			abi: SWORDIUM_ABI,
+// 			params: { account: walletAddress, id: metadata.mint_id, amount: 1 },
+// 		};
+
+// 		try {
+// 			await Moralis.authenticate();
+
+// 			const transaction = await Moralis.executeFunction(sendOptions);
+
+// 			// marked minted
+// 			const NFT = Moralis.Object.extend("NFT");
+// 			const query = new Moralis.Query(NFT);
+// 			query.equalTo("objectId", data.id);
+// 			const currNFT = await query.first();
+// 			currNFT.set("minted", true);
+// 			currNFT.set("owner", walletAddress);
+
+// 			await currNFT.save();
+
+// 			setMetadata({ ...metadata, minted: true });
+
+// 			console.log("mint result ============");
+// 			console.log(transaction);
+// 			console.log("========================");
+
+// 			scheduleShow("green");
+// 		} catch (error) {
+// 			console.log(error);
+// 			scheduleShow("red");
+// 		} finally {
+// 			setIsMinting(false);
+// 		}
+// 	};
+
+// 	const NFTOperationSection = ({ style, isMinting }) => {
+// 		if (!metadata) {
+// 			return <></>;
+// 		}
+
+// 		if (!metadata.minted) {
+// 			if (isMinting) {
+// 				return (
+// 					<div style={{ ...style, bottom: 0 }}>
+// 						<MintingLoader />
+// 					</div>
+// 				);
+// 			} else {
+// 				return (
+// 					<Button style={style} onClick={mint}>
+// 						Mint
+// 					</Button>
+// 				);
+// 			}
+// 		}
+
+// 		if (metadata.minted && !metadata.listed) {
+// 			return (
+// 				<Button
+// 					style={{
+// 						...style,
+// 						background: themeColors.background,
+// 						color: themeColors.foreground,
+// 						boxShadow:
+// 							"inset 5px 5px 10px #b1b1b1,inset -5px -5px 10px #ffffff",
+// 					}}
+// 				>
+// 					Minted
+// 				</Button>
+// 			);
+// 		}
+
+// 		if (metadata.minted && metadata.listed) {
+// 			return (
+// 				<Button style={{ ...style, background: "green" }}>
+// 					BUY {metadata.price}
+// 				</Button>
+// 			);
+// 		}
+// 	};
+
+// 	const scheduleShow = async (result) => {
+// 		if (result === "green") {
+// 			setShowSuccess(true);
+// 			setTimeout(() => {
+// 				setShowSuccess(false);
+// 			}, 2000);
+// 		} else if (result === "red") {
+// 			setShowFail(true);
+// 			setTimeout(() => {
+// 				setShowFail(false);
+// 			}, 2000);
+// 		}
+// 	};
+
+// 	return (
+// 		<div style={{ position: "relative" }}>
+// 			<NextLink
+// 				href={`/nft?nftId=${data.id}`}
+// 				// href={`/nft?chain_id=${chainId}&token_address=${tokenAddress}&token_id=${data?.token_id}`}
+// 			>
+// 				<div
+// 					style={{
+// 						// border: "3px solid red",
+// 						width: "260px",
+// 						height: "350px",
+// 						padding: "10px",
+// 						borderRadius: "10px",
+// 						boxShadow: hovered
+// 							? "rgb(232 65 65) 2px 2px 30px, rgb(232 65 65) -2px -2px 30px"
+// 							: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
+// 						transition: "0.4s",
+// 						cursor: "pointer",
+// 					}}
+// 					onMouseEnter={toggleHover}
+// 					onMouseLeave={toggleHover}
+// 				>
+// 					{!metadata && <NFTPreviewContentLoader />}
+
+// 					{metadata && metadata.image && (
+// 						<Image
+// 							className="nftPreviewImage"
+// 							width="260px"
+// 							height="260px"
+// 							src={metadata?.image}
+// 							loader={contentfulLoader}
+// 							alt={""}
+// 						/>
+// 					)}
+
+// 					{metadata && (
+// 						<Box style={{ padding: "10px" }}>
+// 							<div
+// 								style={{
+// 									fontWeight: "400",
+// 									color: "#31344b",
+// 									fontSize: "1.11rem",
+// 									display: "flex",
+// 									flexDirection: "row",
+// 									justifyContent: "space-between",
+// 									fontFamily: "'Oxanium', cursive",
+// 								}}
+// 							>
+// 								{metadata?.name}
+// 								<Logos chainId={chainId} />
+// 							</div>
+// 						</Box>
+// 					)}
+
+// 					{/* {metadata.minted ? "minted" : "not minted"} */}
+// 				</div>
+// 			</NextLink>
+
+// 			<NFTOperationSection
+// 				style={{
+// 					position: "absolute",
+// 					width: "240px",
+// 					fontSize: "1.3rem",
+// 					bottom: 10,
+// 					left: 10,
+// 				}}
+// 				isMinting={isMinting}
+// 			/>
+
+// 			{showSuccess && (
+// 				<div
+// 					style={{
+// 						position: "absolute",
+// 						backgroundColor: "green",
+// 						color: "white",
+// 						left: 0,
+// 						width: 160,
+// 						borderRadius: 10,
+// 						textAlign: "center",
+// 						fontSize: "1.5rem",
+// 						padding: "5px",
+// 						top: 50,
+// 						left: 50,
+// 					}}
+// 				>
+// 					success
+// 				</div>
+// 			)}
+
+// 			{showFail && (
+// 				<div
+// 					style={{
+// 						position: "absolute",
+// 						backgroundColor: "red",
+// 						color: "white",
+// 						left: 0,
+// 						width: 160,
+// 						borderRadius: 10,
+// 						textAlign: "center",
+// 						fontSize: "1.5rem",
+// 						padding: "5px",
+// 						top: 50,
+// 						left: 50,
+// 					}}
+// 				>
+// 					fail
+// 				</div>
+// 			)}
+// 		</div>
+// 	);
+// }
+
+// const CHAIN_ID = "0xa869";
 
 function NFTCollection() {
-	const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
-	const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
-
-	const {
-		authenticate,
-		isAuthenticated,
-		logout,
-		Moralis,
-		initialize,
-		isInitialized,
-	} = useMoralis();
-
-	const { walletAddress, chainId } = useMoralisDapp();
-
+	const router = useRouter();
+	const { walletAddress } = router.query;
+	const { Moralis } = useMoralis();
 	const [NFTData, setNFTData] = useState(Array(20).fill(0));
 
 	useEffect(async () => {
-		if (isInitialized) {
-			getNFTs();
+		if (Moralis && walletAddress) {
+			const NFT = Moralis.Object.extend("NFT");
+			const query = new Moralis.Query(NFT);
+			query.equalTo("owner", walletAddress);
+			const result = await query.find();
+
+			console.log(result);
+
+			setNFTData(result);
 		}
-	}, [Moralis, initialize, isInitialized]);
+	}, [Moralis, walletAddress]);
 
-	const getNFTs = async () => {
-		const options = { chain: "0xa869", address: walletAddress };
-		const nfts = await Moralis.Web3API.account.getNFTs(options);
-		setNFTData(nfts.result);
-		console.log(nfts);
-	};
-
-	if (!isAuthenticated) {
-		return <div>Please Login First</div>;
-	}
-
-	return (
-		<Box style={styles.content}>
-			<div
-				style={{
-					width: "100%",
-					height: "100px",
-				}}
-			>
-				<button onClick={getNFTs}>refresh</button>
-			</div>
-
-			<Box style={styles.NFTs}>
-				{NFTData.map((item, index) => {
-					return <NFTPreview key={index} data={item} chainId={chainId} />;
-				})}
-			</Box>
-		</Box>
-	);
+	return <NFTGrid NFTData={NFTData} />;
 }
 
 export default NFTCollection;

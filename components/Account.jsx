@@ -135,7 +135,7 @@ function Account() {
 					<MenuItem visible={isModalVisible}> My Account </MenuItem>
 				</NextLink>
 
-				<NextLink href={"/MyNFTs"}>
+				<NextLink href={`/MyNFTs?walletAddress=${walletAddress}`}>
 					<MenuItem visible={isModalVisible}> My NFTs </MenuItem>
 				</NextLink>
 
