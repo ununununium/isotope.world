@@ -163,7 +163,8 @@ export default function navbar({ path }) {
 					href="/collection?id=EGCCkzdUXjy5ulOZIPXkrrjn"
 					label="Swordium"
 				/>
-				<NavbarLinkItem href="/team" label="Team" />
+				{/* <NavbarLinkItem href="/team" label="Team" /> */}
+				{/* <NavbarLinkItem href="/contact" label="Contact" /> */}
 			</div>
 
 			<div style={styles.headerRight}>
