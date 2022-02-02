@@ -392,11 +392,11 @@ function NFT() {
 					{metadata && (
 						<div
 							style={{
-								color: themeColors.background,
-								fontWeight: "600",
+								color: themeColors.foreground,
+								fontWeight: "700",
 								fontSize: "1.5rem",
 								textShadow:
-									"2px 2px 10px rgb(0,0,0), -2px -2px 15px rgb(255,255,255)",
+									"2px 2px 10px rgb(255,255,255), -2px -2px 15px rgb(255,255,255)",
 							}}
 						>
 							{metadata.name}

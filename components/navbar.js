@@ -7,6 +7,7 @@ import Chains from "./Chains";
 import NextLink from "next/link";
 import { useState } from "react";
 import { SiDiscord } from "react-icons/si";
+import { SWORDIUM_COLLECTION } from "../miscellaneous/Links";
 
 const styles = {
 	content: {
@@ -159,11 +160,8 @@ export default function navbar({ path }) {
 					label="Swordium"
 				/> */}
 
-				<NavbarLinkItem
-					href="/collection?id=EGCCkzdUXjy5ulOZIPXkrrjn"
-					label="Swordium"
-				/>
-				{/* <NavbarLinkItem href="/team" label="Team" /> */}
+				<NavbarLinkItem href={SWORDIUM_COLLECTION} label="Swordium" />
+				<NavbarLinkItem href="/team" label="Team" />
 				{/* <NavbarLinkItem href="/contact" label="Contact" /> */}
 			</div>
 

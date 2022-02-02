@@ -1,7 +1,7 @@
 import Head from "next/head";
 import NavBar from "../navbar";
 // import Footer from "../footer";
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import themeColors from "../../theme/theme";
 
 const Main = ({ children, router }) => {
@@ -9,14 +9,14 @@ const Main = ({ children, router }) => {
 		<div
 			style={{
 				width: "100%",
-				height: "100%",
+				minHeight: "100vh",
 				display: "flex",
 				flexDirection: "column",
 				backgroundColor: themeColors.background,
 			}}
 		>
 			<NavBar path={router.asPath} />
-			<Box
+			<div
 				style={{
 					width: "100%",
 					display: "flex",
@@ -24,12 +24,23 @@ const Main = ({ children, router }) => {
 					marginTop: "100px",
 					alignItems: "center",
 					backgroundColor: themeColors.background,
+					position: "relative",
+					minHeight: "87vh",
 				}}
 			>
 				{children}
-
-				{/* <Footer /> */}
-			</Box>
+			</div>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center",
+					justifyContent: "center",
+					width: "100%",
+				}}
+			>
+				Copyright © 2022 Isotope LLC. All rights reserved.
+			</div>
 		</div>
 	);
 };
