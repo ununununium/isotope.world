@@ -54,7 +54,7 @@ const TeamMemberIntroduction = ({ photo, name, title, children }) => {
 			>
 				{title}
 			</div>
-			{children}
+			<div style={{ fontSize: 16 }}>{children}</div>
 		</div>
 	);
 };
