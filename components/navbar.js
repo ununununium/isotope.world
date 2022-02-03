@@ -162,7 +162,7 @@ export default function navbar({ path }) {
 
 				<NavbarLinkItem href={SWORDIUM_COLLECTION} label="Swordium" />
 				<NavbarLinkItem href="/team" label="Team" />
-				{/* <NavbarLinkItem href="/contact" label="Contact" /> */}
+				<NavbarLinkItem href="/contact" label="Contact" />
 			</div>
 
 			<div style={styles.headerRight}>
