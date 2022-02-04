@@ -16,8 +16,8 @@ import { useIPFS } from "../hooks/useIPFS";
 import themeColors from "../theme/theme";
 
 import { useRouter } from "next/router";
-import ThreeDimModel from "../components/ThreeDimModel";
-import CircularProgress from "@mui/material/CircularProgress";
+import ThreeDimModel from "../components/3D/ThreeDimModel";
+import LinearProgress from "@mui/material/LinearProgress";
 import { Logos } from "../components/Chains/ChainToLogo";
 
 import NextLink from "next/link";
@@ -350,20 +350,14 @@ function NFT() {
 				style={{
 					width: "45%",
 					height: "80vh",
-					// background: "blue",
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
-					// border: "1px solid red",
 				}}
 			>
-				{!metadata && <CircularProgress />}
+				{!metadata && <LinearProgress style={{ width: 200 }} />}
 				{metadata && (
-					<ThreeDimModel
-						// style={styles.model}
-						gltf_path={metadata.gltf_model}
-						scale={1.5}
-					/>
+					<ThreeDimModel gltf_path={metadata.gltf_model} scale={1.5} />
 				)}
 			</Box>
 

@@ -8,8 +8,8 @@ import Image from "next/image";
 
 import React, { useState, useEffect } from "react";
 import themeColors from "../theme/theme";
-import ThreeDimModel from "../components/ThreeDimModel";
-import Swords from "../components/Swords";
+import ThreeDimModel from "../components/3D/ThreeDimModel";
+import Swords from "../components/3D/Swords";
 import NextLink from "next/link";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import ThreeDRotationIcon from "@mui/icons-material/ThreeDRotation";
@@ -23,6 +23,7 @@ import { BsFillSafeFill } from "react-icons/bs";
 import { MdCloudUpload } from "react-icons/md";
 import { GiImperialCrown } from "react-icons/gi";
 import { SWORDIUM_COLLECTION } from "../miscellaneous/Links";
+import dynamic from "next/dynamic";
 
 const styles = {
 	content: {
@@ -123,6 +124,24 @@ const IntroductionCard = ({ Icon, title, text }) => {
 	);
 };
 
+const DynamicSwordsWithLoading = dynamic(
+	() => import("../components/3D/Swords"),
+	{
+		loading: () => (
+			<div
+				style={{
+					width: 1000,
+					height: 1000,
+					backgroundColor: "red",
+					zIndex: 99,
+				}}
+			>
+				loading....
+			</div>
+		),
+	}
+);
+
 function Home() {
 	return (
 		<div style={styles.content}>
@@ -135,7 +154,7 @@ function Home() {
 						flexDirection: "row",
 					}}
 				>
-					<Swords
+					<DynamicSwordsWithLoading
 						amount={5}
 						indicies={[2, 4, 7, 10, 17]}
 						style={{

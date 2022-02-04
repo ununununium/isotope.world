@@ -1,14 +1,10 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import {
-	useGLTF,
-	Detailed,
-	OrbitControls,
-	Environment,
-} from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import axios from "axios";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+import Loader from "./Loader";
 
 export default function Swords({ amount, indicies, style }) {
 	const DISPLAY_AMOUNT = amount;
@@ -22,17 +18,16 @@ export default function Swords({ amount, indicies, style }) {
 
 	useEffect(async () => {
 		let res = await axios.get("/GLTF-Paths.json");
-		console.log(res.data);
 		setData(res.data);
 	}, []);
 
 	return (
 		<Canvas camera={{ position: [0, 0, 10] }} style={style}>
-			<Suspense fallback={null}>
+			<Suspense fallback={<Loader />}>
 				{data.length > 0 &&
 					amount != 1 &&
 					positions.map((props, i) => (
-						<Bust key={i} {...props} path={data[indicies[i]]} />
+						<Model key={i} {...props} scale={3} path={data[indicies[i]]} />
 					))}
 				{data.length > 0 && amount === 1 && (
 					<Model
@@ -50,18 +45,16 @@ export default function Swords({ amount, indicies, style }) {
 	);
 }
 
-function Bust(props) {
-	return (
-		// <Detailed distances={[0, 15, 25, 35, 100]}>
-		<Model
-			path={props.path}
-			scale={3}
-			position={props.position}
-			rotation={props.rotation}
-		/>
-		// </Detailed>
-	);
-}
+// function Bust(props) {
+// 	return (
+// 		<Model
+// 			path={props.path}
+// 			scale={3}
+// 			position={props.position}
+// 			rotation={props.rotation}
+// 		/>
+// 	);
+// }
 
 const Model = ({ path, scale, position, rotation }) => {
 	const ref = useRef();

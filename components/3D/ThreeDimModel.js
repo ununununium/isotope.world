@@ -5,10 +5,10 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import { Suspense } from "react";
 import { useRef } from "react";
+import Loader from "./Loader";
 
 const Model = ({ fileName, scale, position }) => {
 	const ref = useRef();
-
 	let gltf = useLoader(GLTFLoader, fileName);
 
 	useFrame((state, delta) => {
@@ -62,7 +62,7 @@ export default function ThreeDimModel(props) {
 	return (
 		<>
 			<Canvas style={props.style}>
-				<Suspense fallback={null}>
+				<Suspense fallback={<Loader />}>
 					<Light brightness={0.5} color={"white"} />
 					<BackLight brightness={0.5} color={"white"} />
 
