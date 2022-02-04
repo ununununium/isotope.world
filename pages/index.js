@@ -212,6 +212,7 @@ function Home() {
 						gap: 20,
 						flexWrap: "wrap",
 						marginTop: 20,
+						paddingBottom: 20,
 					}}
 				>
 					<IntroductionCard
@@ -264,10 +265,10 @@ function Home() {
 						width: "940px",
 						display: "flex",
 						flexDirection: "row",
-
 						gap: 20,
 						flexWrap: "wrap",
-						marginTop: 20,
+						marginTop: 10,
+						paddingBottom: 20,
 					}}
 				>
 					<IntroductionCard
