@@ -2,7 +2,6 @@ import { useMoralisDapp } from "../providers/MoralisDappProvider/MoralisDappProv
 import { useMoralis } from "react-moralis";
 import { getEllipsisTxt } from "../helpers/formatters";
 // import Blockie from "./Blockie";
-// import { Button, Card, Modal } from "antd";
 import { useState, useEffect, useRef } from "react";
 import Address from "./Address/Address";
 // import { SelectOutlined } from "@ant-design/icons";

@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import "antd/dist/antd.css";
 import Layout from "../components/layouts/main";
 import { MoralisProvider } from "react-moralis";
 import { MoralisDappProvider } from "../providers/MoralisDappProvider/MoralisDappProvider";
