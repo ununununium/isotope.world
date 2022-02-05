@@ -16,7 +16,7 @@ import { useIPFS } from "../hooks/useIPFS";
 import themeColors from "../theme/theme";
 
 import { useRouter } from "next/router";
-import ThreeDimModel from "../components/ThreeDimModel";
+import ThreeDimModel from "../components/3D/ThreeDimModel";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Logos } from "../components/Chains/ChainToLogo";
 
