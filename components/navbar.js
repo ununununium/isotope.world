@@ -1,13 +1,16 @@
 import React from "react";
-import Box from "@mui/material/Box";
+
 import themeColors from "../theme/theme";
 import Logo from "./logo";
 import Account from "./Account";
 import Chains from "./Chains";
 import NextLink from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { SiDiscord } from "react-icons/si";
 import { SWORDIUM_COLLECTION } from "../miscellaneous/Links";
+import useWindowSize from "../hooks/useWindowSize";
+import { GrMenu } from "react-icons/gr";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 
 const styles = {
 	content: {
@@ -23,19 +26,12 @@ const styles = {
 		position: "fixed",
 		zIndex: 1,
 		width: "100%",
-		// height: "80px",
-		// background: "#fff",
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
 		fontFamily: "Roboto, sans-serif",
-		// borderBottom: "2px solid rgba(0, 0, 0, 0.06)",
 		padding: "10px",
-		// boxShadow: "0 1px 10px rgb(151 164 175 / 10%)",
-		// boxShadow:
-		// 	"6px 6px 14px 0 rgba(0, 0, 0, 0.2),-8px -8px 18px 0 rgba(255, 255, 255, 0.55)",
 		backgroundColor: themeColors.background,
-		// border: "1px solid black",
 	},
 	headerRight: {
 		display: "flex",
@@ -54,7 +50,7 @@ const styles = {
 	},
 };
 
-const NavbarLinkItem = ({ href, label }) => {
+const NavbarLinkItem = ({ href, label, style, onClick }) => {
 	const [hovered, setHovered] = useState(false);
 	const toggleHover = () => setHovered(!hovered);
 
@@ -80,9 +76,11 @@ const NavbarLinkItem = ({ href, label }) => {
 						transitionDuration: "0.4s",
 						fontFamily: "'Oxanium', cursive",
 						fontSize: 18,
+						...style,
 					}}
 					onMouseEnter={toggleHover}
 					onMouseLeave={toggleHover}
+					onClick={onClick}
 				>
 					{label}
 				</div>
@@ -137,10 +135,10 @@ const DiscordJoinButton = () => {
 	);
 };
 
-export default function navbar({ path }) {
+function Desktop() {
 	return (
-		<Box style={styles.header}>
-			<Logo />
+		<div style={styles.header}>
+			<Logo fontSizeHovered={30} fontSize={28} />
 
 			<div
 				style={{
@@ -165,11 +163,110 @@ export default function navbar({ path }) {
 				<NavbarLinkItem href="/contact" label="Contact" />
 			</div>
 
-			<div style={styles.headerRight}>
-				{/* <Chains /> */}
-				{/* <NativeBalance /> */}
+			<Account />
+		</div>
+	);
+}
+
+function Mobile() {
+	const [open, setOpen] = useState(false);
+	const ref = useRef();
+	useOnClickOutside(ref, () => setOpen(false));
+
+	return (
+		<div
+			style={{
+				position: "fixed",
+				zIndex: 2,
+				width: "100%",
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "space-between",
+				alignItems: "center",
+				fontFamily: "Roboto, sans-serif",
+				backgroundColor: themeColors.background,
+				position: "relative",
+			}}
+		>
+			<div
+				style={{
+					// width: "100%",
+					position: "absolute",
+					zIndex: 4,
+					padding: 10,
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					height: 70,
+				}}
+			>
+				<Logo fontSizeHovered={22} fontSize={20} />
+			</div>
+
+			<div
+				style={{
+					width: "100%",
+					padding: 10,
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "space-between",
+					alignItems: "center",
+					zIndex: 3,
+					height: 70,
+					backgroundColor: themeColors.background,
+				}}
+			>
+				<div
+					onClick={() => {
+						setOpen(!open);
+					}}
+				>
+					<GrMenu style={{ width: 30, height: 30 }} />
+				</div>
+
 				<Account />
 			</div>
-		</Box>
+
+			<div
+				style={{
+					position: "absolute",
+					paddingTop: 40,
+					top: open ? 40 : -170,
+					transition: "0.4s",
+					zIndex: 2,
+					background: themeColors.background,
+					width: "100%",
+					display: "flex",
+					flexDirection: "column",
+					gap: 10,
+				}}
+				ref={ref}
+			>
+				<NavbarLinkItem
+					href={SWORDIUM_COLLECTION}
+					label="Swordium"
+					style={{ borderRadius: 0, width: "100%" }}
+					onClick={() => setOpen(false)}
+				/>
+				<NavbarLinkItem
+					href="/team"
+					label="Team"
+					style={{ borderRadius: 0, width: "100%" }}
+					onClick={() => setOpen(false)}
+				/>
+				<NavbarLinkItem
+					href="/contact"
+					label="Contact"
+					style={{ borderRadius: 0, width: "100%" }}
+					onClick={() => setOpen(false)}
+				/>
+			</div>
+		</div>
 	);
+}
+
+export default function navbar() {
+	const { width } = useWindowSize();
+
+	return width < 940 ? <Mobile /> : <Desktop />;
 }

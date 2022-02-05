@@ -1,11 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-// import styles from "../styles/Home.module.css";
-
-// export default function Home() {
-// 	return <div className={styles.container}>123</div>;
-// }
-
 import React, { useState, useEffect } from "react";
 import themeColors from "../theme/theme";
 import ThreeDimModel from "../components/3D/ThreeDimModel";
@@ -24,6 +18,7 @@ import { MdCloudUpload } from "react-icons/md";
 import { GiImperialCrown } from "react-icons/gi";
 import { SWORDIUM_COLLECTION } from "../miscellaneous/Links";
 import dynamic from "next/dynamic";
+import useWindowSize from "../hooks/useWindowSize";
 
 const styles = {
 	content: {
@@ -35,7 +30,7 @@ const styles = {
 	},
 };
 
-const NavbarLinkItem = ({ href, label }) => {
+const NavbarLinkItem = ({ href, label, style }) => {
 	const [hovered, setHovered] = useState(false);
 	const toggleHover = () => setHovered(!hovered);
 
@@ -62,6 +57,7 @@ const NavbarLinkItem = ({ href, label }) => {
 					marginTop: 30,
 					fontFamily: "'Oxanium', cursive",
 					fontSize: 20,
+					...style,
 				}}
 				onMouseEnter={toggleHover}
 				onMouseLeave={toggleHover}
@@ -124,25 +120,7 @@ const IntroductionCard = ({ Icon, title, text }) => {
 	);
 };
 
-const DynamicSwordsWithLoading = dynamic(
-	() => import("../components/3D/Swords"),
-	{
-		loading: () => (
-			<div
-				style={{
-					width: 1000,
-					height: 1000,
-					backgroundColor: "red",
-					zIndex: 99,
-				}}
-			>
-				loading....
-			</div>
-		),
-	}
-);
-
-function Home() {
+function Desktop() {
 	return (
 		<div style={styles.content}>
 			<div style={{ width: "100%", height: "calc(100vh - 100px)" }}>
@@ -154,7 +132,7 @@ function Home() {
 						flexDirection: "row",
 					}}
 				>
-					<DynamicSwordsWithLoading
+					<Swords
 						amount={5}
 						indicies={[2, 4, 7, 10, 17]}
 						style={{
@@ -179,9 +157,10 @@ function Home() {
 							fontSize: 52,
 							color: themeColors.foreground,
 							marginTop: 30,
+							marginBottom: 20,
 						}}
 					>
-						Welcome To Isotope.World
+						Welcome To ISOTOPE
 					</div>
 
 					<div
@@ -406,6 +385,7 @@ function Home() {
 								color: themeColors.foreground,
 								textAlign: "left",
 								width: 570,
+								marginBottom: 20,
 							}}
 						>
 							Swordium
@@ -439,6 +419,314 @@ function Home() {
 			{/* </div> */}
 		</div>
 	);
+}
+
+function Mobile() {
+	// return <div>mobile</div>;
+	return (
+		<div style={styles.content}>
+			<div style={{ width: "100%", height: "calc(100vh - 100px)" }}>
+				<div
+					style={{
+						height: "50vh",
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+					}}
+				>
+					<Swords
+						amount={5}
+						indicies={[2, 4, 7, 10, 17]}
+						style={{
+							background: "rgb(225,235,245)",
+							background:
+								"linear-gradient(180deg, rgba(225,235,245,1) 0%, rgba(255,208,208,1) 51%, rgba(225,235,245,1) 100%)",
+						}}
+					/>
+				</div>
+				<div
+					style={{
+						backgroundColor: themeColors.background,
+						height: "calc(50vh - 100px)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+					}}
+				>
+					<div
+						style={{
+							fontFamily: "'Oxanium', cursive",
+							fontSize: 40,
+							color: themeColors.foreground,
+							marginTop: 30,
+							marginBottom: 20,
+						}}
+					>
+						Welcome To ISOTOPE
+					</div>
+
+					<div
+						style={{
+							fontFamily: "'Oxanium', cursive",
+							fontSize: 24,
+							color: themeColors.foreground,
+						}}
+					>
+						The Almighty NFT Platform
+					</div>
+
+					<NavbarLinkItem
+						href={SWORDIUM_COLLECTION}
+						label={"Explore Swordium 3D NFT Collection"}
+					/>
+				</div>
+			</div>
+
+			<div
+				style={{
+					// height: "calc(100vh - 100px)",
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					background: themeColors.background,
+				}}
+			>
+				<div
+					style={{
+						fontFamily: "'Oxanium', cursive",
+						fontSize: 32,
+						color: themeColors.foreground,
+						textAlign: "center",
+					}}
+					id="introduction"
+				>
+					Our Primary Objectives
+				</div>
+
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						gap: 20,
+						justifyContent: "center",
+						marginTop: 20,
+						paddingBottom: 20,
+					}}
+				>
+					<IntroductionCard
+						Icon={MdGeneratingTokens}
+						title={"Tokenization Service"}
+						text={
+							"Provide streamlined uploading, minting, listing services for content creators. Getting your products on-chain is just a few clicks away."
+						}
+					/>
+					<IntroductionCard
+						Icon={StorefrontIcon}
+						title={"NFT Marketplace"}
+						text={
+							"Develop a user-friendly marketplace for creators and customers to trade digital asset collections. Trading made easy without the jargon!"
+						}
+					/>
+					<IntroductionCard
+						Icon={BsFillSafeFill}
+						title={"Secure Showcase"}
+						text={
+							"Provide creators with a secure platform to reveal their initial designs to the world. No more copyright infringement or stolen content."
+						}
+					/>
+				</div>
+			</div>
+			<div
+				style={{
+					// height: "calc(100vh - 100px)",
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					background: themeColors.background,
+				}}
+			>
+				<div
+					style={{
+						fontFamily: "'Oxanium', cursive",
+						fontSize: 32,
+						color: themeColors.foreground,
+						textAlign: "center",
+						marginTop: 100,
+					}}
+					id="introduction"
+				>
+					Key Features
+				</div>
+
+				<div
+					style={{
+						// width: "940px",
+						display: "flex",
+						flexDirection: "column",
+						gap: 20,
+						flexWrap: "wrap",
+						marginTop: 20,
+						paddingBottom: 20,
+						justifyContent: "center",
+					}}
+				>
+					<IntroductionCard
+						Icon={ThreeDRotationIcon}
+						title={"3D NFTs"}
+						text={
+							"We provide state-of-art 3D NFT viewing and interacting user experience."
+						}
+					/>
+
+					<IntroductionCard
+						Icon={PublicIcon}
+						title={"Metaverse Ready"}
+						text={
+							"Your 3D NFTs are ready for metaverse from the moment of creation. Raw model file access will be granted for owners to exhibit across different metaverses."
+						}
+					/>
+
+					<IntroductionCard
+						Icon={({ style }) => (
+							<Image
+								width={70}
+								height={70}
+								style={style}
+								src={require("/assets/logos/avalanche-avax.svg")}
+								alt=""
+							/>
+						)}
+						title={"Mint on Avalanche"}
+						text={
+							<div>
+								{
+									"NFTs will be minted on Avalanche Chain for the sake of high transaction speed, low costs, and eco-friendliness."
+								}{" "}
+								<a
+									href={"https://www.avax.network/"}
+									target="_blank"
+									rel={"noopener noreferrer"}
+								>
+									<br /> Learn more about Avalanche
+								</a>
+							</div>
+						}
+					/>
+
+					<IntroductionCard
+						Icon={({ style }) => (
+							<Image
+								width={175}
+								height={70}
+								style={style}
+								src={require("/assets/logos/IPFS_logo.png")}
+								alt=""
+							/>
+						)}
+						title={"Distributed Data Storage"}
+						text={
+							<div>
+								{
+									"NFT data will be stored on IPFS for the sake of immutability, efficiency and permanency."
+								}{" "}
+								<br />
+								<a
+									href={"https://ipfs.io/"}
+									target="_blank"
+									rel={"noopener noreferrer"}
+								>
+									{" "}
+									Learn more about IPFS
+								</a>
+							</div>
+						}
+					/>
+
+					<IntroductionCard
+						Icon={MdCloudUpload}
+						title={"Create NFTs for Free"}
+						text={
+							"Creating and hosting your pre-minted NFTs on our platform is completely free."
+						}
+					/>
+
+					<IntroductionCard
+						Icon={GiImperialCrown}
+						title={"Eternal Royalty Fee"}
+						text={
+							"When transaction happened, a designated percentage of the transaction amount will be rewarded back to the NFT creator."
+						}
+					/>
+				</div>
+			</div>
+			<div
+				style={{
+					// height: "calc(100vh - 100px)",
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					background: themeColors.background,
+				}}
+			>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
+					<div style={{ width: "100%", height: "60vh" }}>
+						<Swords amount={1} indicies={[6]} />
+					</div>
+					<div
+						style={{
+							padding: 20,
+						}}
+					>
+						<div
+							style={{
+								fontFamily: "'Oxanium', cursive",
+								fontSize: 40,
+								fontWeight: "bold",
+								color: themeColors.foreground,
+								textAlign: "left",
+								marginBottom: 20,
+							}}
+						>
+							Swordium
+						</div>
+
+						<div
+							style={{
+								fontFamily: "'Oxanium', cursive",
+								fontSize: 20,
+								textAlign: "left",
+								color: themeColors.foreground,
+							}}
+						>
+							First generative 3D Model NFT collection created by Isotope.world.
+							This collection contains 10,000 unique collectible swords. Stay
+							tune for miniting.
+						</div>
+
+						<NavbarLinkItem
+							style={{ width: "100%" }}
+							href={SWORDIUM_COLLECTION}
+							label={"Explore Swordium 3D NFT Collection"}
+						/>
+					</div>
+				</div>
+			</div>
+			{/* </div> */}
+		</div>
+	);
+}
+
+function Home() {
+	const { width } = useWindowSize();
+
+	return width < 940 ? <Mobile /> : <Desktop />;
 }
 
 export default Home;

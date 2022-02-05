@@ -4,6 +4,7 @@ import Image from "next/image";
 import themeColors from "../theme/theme";
 import NextLink from "next/link";
 import { SWORDIUM_COLLECTION } from "../miscellaneous/Links";
+import useWindowSize from "../hooks/useWindowSize";
 
 const TeamMemberIntroduction = ({ photo, name, title, children }) => {
 	const [hovered, setHovered] = useState(false);
@@ -59,7 +60,7 @@ const TeamMemberIntroduction = ({ photo, name, title, children }) => {
 	);
 };
 
-const team = () => {
+const Desktop = () => {
 	return (
 		<>
 			<div
@@ -146,4 +147,79 @@ const team = () => {
 	);
 };
 
-export default team;
+const Mobile = () => {
+	return (
+		<>
+			<div
+				style={{
+					position: "absolute",
+					width: "100%",
+					height: 300,
+					background:
+						"linear-gradient(180deg, rgba(225,235,245,1) 0%, rgba(208,255,240,1) 51%, rgba(225,235,245,1) 100%)",
+					zIndex: 0,
+				}}
+			></div>
+
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					zIndex: 1,
+				}}
+			>
+				<div
+					style={{
+						width: "100%",
+						height: "100%",
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "space-between",
+					}}
+				>
+					<TeamMemberIntroduction
+						photo={"/team/YutingZhong_Photo.jpeg"}
+						name={"Yuting Zhong"}
+						title={"Founder, CEO, CTO"}
+					>
+						Hey There! Hope you enjoy our product. I am the main software
+						engineer and idea generator in our team. I designed and built the
+						entire website as well as the backend services. I also worked with
+						our artist Peter using code to create the our first Generative 3D
+						Art NFT collection{" "}
+						<NextLink href={SWORDIUM_COLLECTION}>Swordium</NextLink>.
+					</TeamMemberIntroduction>
+
+					<TeamMemberIntroduction
+						photo={"/team/BradleyTian_Photo.jpeg"}
+						name={"Bradley Tian"}
+						title={"Co-Founder, Marketing Expert"}
+					>
+						Hello! I am Bradley, a current undergraduate at UC Berkeley studying
+						computer science and business administration. I'm interested in
+						financial analysis, software development, and decentralized
+						technology. At Isotope, I am responsible for developing product
+						roadmaps and marketing strategies.
+					</TeamMemberIntroduction>
+					<TeamMemberIntroduction
+						photo={"/team/PeterZheng_Photo.jpeg"}
+						name={"Peter Zheng"}
+						title={"Co-Founder, Cheif Artist"}
+					>
+						Hello! I am Peter, a current undergraduate at Rhode Island School of
+						Design. At Isotope, I am responsible for creating NFT arts. Check
+						out our first Generative 3D Art NFT Collection{" "}
+						<NextLink href={SWORDIUM_COLLECTION}>Swordium</NextLink>.
+					</TeamMemberIntroduction>
+				</div>
+			</div>
+		</>
+	);
+};
+
+export default function team() {
+	const { width } = useWindowSize();
+
+	return width < 940 ? <Mobile /> : <Desktop />;
+}

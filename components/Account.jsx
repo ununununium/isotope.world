@@ -8,11 +8,12 @@ import Address from "./Address/Address";
 import { getExplorer } from "../helpers/networks";
 import themeColors from "../theme/theme";
 import NextLink from "next/link";
+import useWindowSize from "../hooks/useWindowSize";
 
 const styles = {
 	account: {
-		height: "42px",
-		padding: "0 15px",
+		height: "40px",
+		padding: "0 12px",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
@@ -57,33 +58,23 @@ const MenuItem = ({ visible, onClick, children }) => {
 };
 
 function useOnClickOutside(ref, handler) {
-	useEffect(
-		() => {
-			const listener = (event) => {
-				// Do nothing if clicking ref's element or descendent elements
-				if (!ref.current || ref.current.contains(event.target)) {
-					return;
-				}
-				handler(event);
-			};
-			document.addEventListener("mousedown", listener);
-			document.addEventListener("touchstart", listener);
-			return () => {
-				document.removeEventListener("mousedown", listener);
-				document.removeEventListener("touchstart", listener);
-			};
-		},
-		// Add ref and handler to effect dependencies
-		// It's worth noting that because passed in handler is a new ...
-		// ... function on every render that will cause this effect ...
-		// ... callback/cleanup to run every render. It's not a big deal ...
-		// ... but to optimize you can wrap handler in useCallback before ...
-		// ... passing it into this hook.
-		[ref, handler]
-	);
+	useEffect(() => {
+		const listener = (event) => {
+			if (!ref.current || ref.current.contains(event.target)) {
+				return;
+			}
+			handler(event);
+		};
+		document.addEventListener("mousedown", listener);
+		document.addEventListener("touchstart", listener);
+		return () => {
+			document.removeEventListener("mousedown", listener);
+			document.removeEventListener("touchstart", listener);
+		};
+	}, [ref, handler]);
 }
 
-function Account() {
+function Desktop() {
 	const { authenticate, isAuthenticated, logout } = useMoralis();
 	const { walletAddress, chainId } = useMoralisDapp();
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -104,10 +95,14 @@ function Account() {
 	return (
 		<div style={styles.account} ref={ref}>
 			<p
-				style={{ marginRight: "5px", ...styles.text }}
+				style={{
+					fontSize: 14,
+					fontWeight: 600,
+					...styles.text,
+				}}
 				onClick={() => setIsModalVisible(!isModalVisible)}
 			>
-				{getEllipsisTxt(walletAddress, 6)}
+				{getEllipsisTxt(walletAddress, 4)}
 			</p>
 
 			<div
@@ -144,71 +139,73 @@ function Account() {
 			</div>
 		</div>
 	);
-	// return (
-	// 	<>
-	// 		<div style={styles.account} onClick={() => setIsModalVisible(true)}>
-	// 			<p style={{ marginRight: "5px", ...styles.text }}>
-	// 				{getEllipsisTxt(walletAddress, 6)}
-	// 			</p>
-	// 			<Blockie currentWallet scale={3} />
-	// 		</div>
-	// 		<Modal
-	// 			visible={isModalVisible}
-	// 			footer={null}
-	// 			onCancel={() => setIsModalVisible(false)}
-	// 			bodyStyle={{
-	// 				padding: "15px",
-	// 				fontSize: "17px",
-	// 				fontWeight: "500",
-	// 			}}
-	// 			style={{ fontSize: "16px", fontWeight: "500" }}
-	// 			width="400px"
-	// 		>
-	// 			Account
-	// 			<Card
-	// 				style={{
-	// 					marginTop: "10px",
-	// 					borderRadius: "1rem",
-	// 				}}
-	// 				bodyStyle={{ padding: "15px" }}
-	// 			>
-	// 				<Address
-	// 					avatar="left"
-	// 					size={6}
-	// 					copyable
-	// 					style={{ fontSize: "20px" }}
-	// 				/>
-	// 				<div style={{ marginTop: "10px", padding: "0 10px" }}>
-	// 					<a
-	// 						href={`${getExplorer(chainId)}/address/${walletAddress}`}
-	// 						target="_blank"
-	// 						rel="noreferrer"
-	// 					>
-	// 						<SelectOutlined style={{ marginRight: "5px" }} />
-	// 						View on Explorer
-	// 					</a>
-	// 				</div>
-	// 			</Card>
-	// 			<Button
-	// 				size="large"
-	// 				type="primary"
-	// 				style={{
-	// 					width: "100%",
-	// 					marginTop: "10px",
-	// 					borderRadius: "0.5rem",
-	// 					fontSize: "16px",
-	// 					fontWeight: "500",
-	// 				}}
-	// 				onClick={() => {
-	// 					logout();
-	// 					setIsModalVisible(false);
-	// 				}}
-	// 			>
-	// 				Disconnect Wallet
-	// 			</Button>
-	// 		</Modal>
-	// 	</>
-	// );
 }
 
-export default Account;
+function Mobile() {
+	const { authenticate, isAuthenticated, logout } = useMoralis();
+	const { walletAddress, chainId } = useMoralisDapp();
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const ref = useRef();
+	useOnClickOutside(ref, () => setIsModalVisible(false));
+
+	if (!isAuthenticated) {
+		return (
+			<div
+				style={styles.account}
+				onClick={() => authenticate({ signingMessage: "Hello Isotope.World" })}
+			>
+				<p style={styles.text}>Authenticate</p>
+			</div>
+		);
+	}
+
+	return (
+		<div style={styles.account} ref={ref}>
+			<p
+				style={{ fontSize: 14, fontWeight: 600, ...styles.text }}
+				onClick={() => setIsModalVisible(!isModalVisible)}
+			>
+				{getEllipsisTxt(walletAddress, 4)}
+			</p>
+
+			<div
+				style={{
+					display: "flex",
+					position: "absolute",
+					background: isModalVisible ? themeColors.background : "rgba(0,0,0,0)",
+					boxShadow: isModalVisible
+						? "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff"
+						: "none",
+					cursor: isModalVisible ? "pointer" : "auto",
+					top: 65,
+					width: 160,
+					height: 200,
+					right: 10,
+					padding: 10,
+					borderRadius: 10,
+					transition: "0.4s",
+					flexDirection: "column",
+					gap: 10,
+				}}
+			>
+				<NextLink href={"/MyAccount"}>
+					<MenuItem visible={isModalVisible}> My Account </MenuItem>
+				</NextLink>
+
+				<NextLink href={`/MyNFTs?walletAddress=${walletAddress}`}>
+					<MenuItem visible={isModalVisible}> My NFTs </MenuItem>
+				</NextLink>
+
+				<MenuItem visible={isModalVisible} onClick={logout}>
+					Logout
+				</MenuItem>
+			</div>
+		</div>
+	);
+}
+
+export default function Account() {
+	const { width } = useWindowSize();
+
+	return width < 940 ? <Mobile /> : <Desktop />;
+}
