@@ -1,10 +1,8 @@
 import { useMoralisDapp } from "../providers/MoralisDappProvider/MoralisDappProvider";
 import { useMoralis } from "react-moralis";
 import { getEllipsisTxt } from "../helpers/formatters";
-// import Blockie from "./Blockie";
 import { useState, useEffect, useRef } from "react";
 import Address from "./Address/Address";
-// import { SelectOutlined } from "@ant-design/icons";
 import { getExplorer } from "../helpers/networks";
 import themeColors from "../theme/theme";
 import NextLink from "next/link";
@@ -85,7 +83,7 @@ function Desktop() {
 		return (
 			<div
 				style={styles.account}
-				onClick={() => authenticate({ signingMessage: "Hello Isotope.World" })}
+				onClick={() => authenticate({ signingMessage: "Hello ISOTOPE" })}
 			>
 				<p style={styles.text}>Authenticate</p>
 			</div>

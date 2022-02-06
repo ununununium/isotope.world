@@ -32,7 +32,7 @@ const Desktop = () => {
 			>
 				<div
 					style={{
-						marginTop: 50,
+						marginTop: 100,
 						fontSize: 70,
 						fontWeight: "bold",
 						textAlign: "center",
@@ -59,13 +59,13 @@ const Desktop = () => {
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
-							gap: 5,
+							gap: 10,
 						}}
 					>
 						<div
 							style={{
-								width: 150,
-								height: 150,
+								width: 100,
+								height: 100,
 								borderRadius: 100,
 								boxShadow: "6px 6px 12px #bfc8d0,-6px -6px 12px #ffffff",
 								display: "flex",
@@ -75,12 +75,12 @@ const Desktop = () => {
 							}}
 						>
 							<MdEmail
-								style={{ height: 80, width: 80, color: themeColors.foreground }}
+								style={{ height: 50, width: 50, color: themeColors.foreground }}
 							/>
 						</div>
 
 						<div style={{ fontSize: 23, color: "#ff7676" }}>EMAIL</div>
-						<div style={{ fontSize: 20, color: "black" }}>
+						<div style={{ fontSize: 20, color: "#00ade6" }}>
 							yuting.isotope@gmail.com
 						</div>
 					</div>
