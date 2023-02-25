@@ -15,12 +15,6 @@ const Main = ({ children, router }) => {
 				backgroundColor: themeColors.background,
 			}}
 		>
-			<head>
-				<meta
-					name="facebook-domain-verification"
-					content="nlv8xlso8w0s3oke9i8sh71vpy9meb"
-				/>
-			</head>
 			<NavBar path={router.asPath} />
 			<div
 				style={{
